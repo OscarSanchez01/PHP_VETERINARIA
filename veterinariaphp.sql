@@ -171,8 +171,3 @@ CREATE TABLE PERRO_RECIBE_SER (
     FOREIGN KEY (ID_Perro) REFERENCES PERROS(ID_Perro)
 );
 
-INSERT INTO PERRO_RECIBE_SER (sr_cod, cod_servicio, ID_Perro, Fecha, Incidencias, Precio_final, Dni) VALUES 
-(1, 'SVBE03', 1, CURDATE() - INTERVAL 38 DAY, 'Sin incidencias', 9.99, '34567890C'),
-(2, 'SVBE03', 2, CURDATE() - INTERVAL 38 DAY, 'Sin incidencias', 9.99, '34567890C'),
-(3, 'SVBE03', 3, CURDATE() - INTERVAL 37 DAY, 'Sin incidencias', 9.99, '34567890C'),
-(4, 'SVBE03', 4, CURDATE() - INTERVAL 37 DAY, 'No se realiza el servicio porque trae un cristal incrustado en la pezuña.', 0.00, '34567890C'),
