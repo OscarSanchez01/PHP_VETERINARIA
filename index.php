@@ -1,13 +1,12 @@
 <?php
-// index.php - Gestión de Perros
-require_once "perros.php";
 
-$perroModel = new Perro();
+require_once "./services/perroService.php";
+
+$perroModel = new PerroService();
 $perros = $perroModel->obtenerPerros();
 $error = "";
 $mensaje = "";
 
-// Manejo de acciones CRUD
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["agregar"])) {
         $dni_duenio = $_POST["dni_duenio"];
@@ -20,15 +19,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $numero_chip = $_POST["numero_chip"];
         $sexo = $_POST["sexo"];
 
-        // Llamar al método para agregar un perro
         $resultado = $perroModel->agregarPerro($dni_duenio, $nombre, $fecha_nto, $raza, $peso, $altura, $observaciones, $numero_chip, $sexo);
 
-        // Manejo de mensajes
         if (strpos($resultado, "Error") !== false) {
             $error = $resultado;
         } else {
             $mensaje = $resultado;
-            header("Location: index.php"); // Redirigir para evitar reenvíos del formulario
+            header("Location: index.php");
             exit();
         }
     }

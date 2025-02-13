@@ -1,32 +1,28 @@
 <?php
-require_once "basedatos.php";
+require_once "./../config/db.php";
 
-class Perro {
+class PerroService {
     private $conexion;
 
     public function __construct() {
-        $this->conexion = new mysqli("localhost", "root", "", "veterinariaphp");
+        $this->conexion = new mysqli("localhost", "root", "", "gromer");
 
         if ($this->conexion->connect_error) {
             die("Error de conexión: " . $this->conexion->connect_error);
         }
     }
 
-    // Obtener todos los perros
     public function obtenerPerros() {
         $query = "SELECT * FROM perros";
         $resultado = $this->conexion->query($query);
         return $resultado->fetch_all(MYSQLI_ASSOC);
     }
 
-    // Agregar un nuevo perro
     public function agregarPerro($dni_duenio, $nombre, $fecha_nto, $raza, $peso, $altura, $observaciones, $numero_chip, $sexo) {
-        // Validar que no falten datos
         if (empty($dni_duenio) || empty($nombre) || empty($fecha_nto) || empty($raza) || empty($peso) || empty($altura) || empty($numero_chip) || empty($sexo)) {
             return "Error: Faltan datos obligatorios.";
         }
 
-        // Verificar si el número de chip ya existe
         $query_chip = "SELECT Numero_Chip FROM perros WHERE Numero_Chip = ?";
         $stmt_chip = $this->conexion->prepare($query_chip);
         $stmt_chip->bind_param("s", $numero_chip);
@@ -38,7 +34,6 @@ class Perro {
         }
         $stmt_chip->close();
 
-        // Verificar si el dueño existe en la base de datos
         $query_dueno = "SELECT Dni FROM clientes WHERE Dni = ?";
         $stmt_dueno = $this->conexion->prepare($query_dueno);
         $stmt_dueno->bind_param("s", $dni_duenio);
@@ -50,7 +45,6 @@ class Perro {
         }
         $stmt_dueno->close();
 
-        // Insertar el nuevo perro en la base de datos
         $query_insert = "INSERT INTO perros (Dni_duenio, Nombre, Fecha_Nto, Raza, Peso, Altura, Observaciones, Numero_Chip, Sexo) 
                          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt_insert = $this->conexion->prepare($query_insert);
@@ -64,9 +58,7 @@ class Perro {
         }
     }
 
-    // Eliminar un perro por número de chip
     public function eliminarPerro($numero_chip) {
-        // Comprobar si el perro existe
         $query_verificar = "SELECT ID_Perro FROM perros WHERE Numero_Chip = ?";
         $stmt_verificar = $this->conexion->prepare($query_verificar);
         $stmt_verificar->bind_param("s", $numero_chip);
@@ -81,14 +73,12 @@ class Perro {
         $stmt_verificar->fetch();
         $stmt_verificar->close();
 
-        // Actualizar los servicios para dejar en NULL el id_perro en la tabla perro_recibe_servicio
         $query_actualizar_servicio = "UPDATE perro_recibe_servicio SET ID_Perro = NULL WHERE ID_Perro = ?";
         $stmt_actualizar_servicio = $this->conexion->prepare($query_actualizar_servicio);
         $stmt_actualizar_servicio->bind_param("i", $id_perro);
         $stmt_actualizar_servicio->execute();
         $stmt_actualizar_servicio->close();
 
-        // Eliminar el perro
         $query_eliminar = "DELETE FROM perros WHERE Numero_Chip = ?";
         $stmt_eliminar = $this->conexion->prepare($query_eliminar);
         $stmt_eliminar->bind_param("s", $numero_chip);

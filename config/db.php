@@ -1,9 +1,8 @@
 <?php
-// basedatos.php - Conexión a la base de datos
 
 class Database {
     private $host = "localhost";
-    private $db_name = "veterinariaphp";
+    private $db_name = "gromer";
     private $username = "root";
     private $password = "";
     public $conn;
@@ -19,4 +18,5 @@ class Database {
         return $this->conn;
     }
 }
+
 ?>
