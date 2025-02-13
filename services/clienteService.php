@@ -31,7 +31,7 @@ class ClienteService {
             return "Error al insertar el cliente";
         }
     }
-
+    
     public function borrarCliente($dni) {
         $query = "SELECT Dni FROM clientes WHERE Dni = ?";
         $stmt = $this->db->prepare($query);
@@ -57,6 +57,25 @@ class ClienteService {
         } else {
             return "Error al borrar el cliente";
         }
+    }
+    
+    public function obtenerPerrosPorCliente($dni_cliente) {
+        $query = "SELECT * FROM perros WHERE Dni_duenio = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("s", $dni_cliente);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
+        
+        $perros = [];
+        while ($fila = $resultado->fetch_assoc()) {
+            $perros[] = $fila;
+        }
+        
+        if (empty($perros)) {
+            return "El cliente no tiene perros registrados";
+        }
+        
+        return $perros;
     }
 }
 ?>
