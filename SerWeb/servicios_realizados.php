@@ -17,7 +17,7 @@ function listarServiciosRealizados($conn) {
 // Listar servicios realizados por un empleado específico
 function listarServiciosPorEmpleado($conn, $dni_empleado) {
     try {
-        $stmt = $conn->prepare("SELECT * FROM perro_recibe_servicio WHERE Dni_Empleado = ?");
+        $stmt = $conn->prepare("SELECT * FROM perro_recibe_servicio WHERE Dni = ?");
         $stmt->execute([$dni_empleado]);
         echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
     } catch (Exception $e) {
@@ -29,18 +29,18 @@ function listarServiciosPorEmpleado($conn, $dni_empleado) {
 function registrarServicioRealizado($conn) {
     $data = json_decode(file_get_contents("php://input"), true);
 
-    if (!isset($data['Fecha'], $data['Codigo_Servicio'], $data['ID_Perro'], $data['Dni_Empleado'], $data['Precio_Final'])) {
+    if (!isset($data['Fecha'], $data['Cod_Servicio'], $data['ID_Perro'], $data['Dni'], $data['Precio_Final'])) {
         echo json_encode(["error" => "Faltan datos obligatorios"]);
         exit;
     }
 
     try {
-        $stmt = $conn->prepare("INSERT INTO perro_recibe_servicio (Fecha, Codigo_Servicio, ID_Perro, Dni_Empleado, Precio_Final, Incidencias) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO perro_recibe_servicio (Fecha, Cod_Servicio, ID_Perro, Dni, Precio_Final, Incidencias) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->execute([
             $data['Fecha'],
-            $data['Codigo_Servicio'],
+            $data['Cod_Servicio'],
             $data['ID_Perro'],
-            $data['Dni_Empleado'],
+            $data['Dni'],
             $data['Precio_Final'],
             $data['Incidencias'] ?? null
         ]);
@@ -54,23 +54,14 @@ function registrarServicioRealizado($conn) {
 // Eliminar un servicio realizado
 function eliminarServicioRealizado($conn) {
     parse_str(file_get_contents("php://input"), $_DELETE);
-    if (!isset($_DELETE['sr_cod'])) {
+    if (!isset($_DELETE['Sr_Cod'])) {
         echo json_encode(["error" => "Falta el código del servicio realizado"]);
         exit;
     }
 
     try {
-        // Verificar si el servicio existe antes de eliminarlo
-        $stmt_check = $conn->prepare("SELECT * FROM perro_recibe_servicio WHERE sr_cod = ?");
-        $stmt_check->execute([$_DELETE['sr_cod']]);
-        if ($stmt_check->rowCount() == 0) {
-            echo json_encode(["error" => "Servicio no encontrado"]);
-            exit;
-        }
-
-        // Proceder con la eliminación
-        $stmt = $conn->prepare("DELETE FROM perro_recibe_servicio WHERE sr_cod = ?");
-        $stmt->execute([$_DELETE['sr_cod']]);
+        $stmt = $conn->prepare("DELETE FROM perro_recibe_servicio WHERE Sr_Cod = ?");
+        $stmt->execute([$_DELETE['Sr_Cod']]);
 
         echo json_encode(["success" => "Servicio eliminado correctamente"]);
     } catch (Exception $e) {

@@ -1,27 +1,27 @@
 <?php
 class ServicioRealizadoService {
-    private static $api_url = "http://localhost/gromer/SerWeb/servicios_realizados.php";
+    private static $api_url = "http://localhost/PHP_VETERINARIA/SerWeb/servicios_realizados.php";
 
     // Obtener los servicios según el rol del usuario
     public static function getServicios($dni_empleado = null) {
         $url = self::$api_url;
-    
+
         if ($dni_empleado !== null) {
             $url .= "?dni_empleado=" . urlencode($dni_empleado);
         }
-    
+
         $response = file_get_contents($url);
         $servicios = json_decode($response, true);
-    
+
         return is_array($servicios) ? $servicios : [];
-    }    
+    }
 
     public static function registrarServicio($fecha, $codigo_servicio, $id_perro, $dni_empleado, $precio_final, $incidencias = null) {
         $data = [
             "Fecha" => $fecha,
-            "Codigo_Servicio" => $codigo_servicio,
+            "Cod_Servicio" => $codigo_servicio,
             "ID_Perro" => $id_perro,
-            "Dni_Empleado" => $dni_empleado,
+            "Dni" => $dni_empleado,
             "Precio_Final" => $precio_final,
             "Incidencias" => $incidencias
         ];
@@ -29,7 +29,7 @@ class ServicioRealizadoService {
     }
 
     public static function eliminarServicio($sr_cod) {
-        $data = ["sr_cod" => $sr_cod];
+        $data = ["Sr_Cod" => $sr_cod];
         return self::deleteRequest($data);
     }
 

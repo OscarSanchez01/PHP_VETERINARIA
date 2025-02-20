@@ -1,7 +1,7 @@
 <?php
 require_once "../services/ServicioRealizadoService.php";
 
-class ServicioRecibidoController {
+class ServicioRealizadoController {
     public function listarServiciosRealizados() {
         return ServicioRealizadoService::getServicios();
     }

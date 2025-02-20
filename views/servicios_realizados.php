@@ -9,7 +9,7 @@ if (!isset($_SESSION['user_role'])) {
     exit;
 }
 
-$controller = new ServicioRecibidoController();
+$controller = new ServicioRealizadoController();
 
 // Si el usuario es ADMIN, obtiene todos los servicios
 $servicios_realizados = ($_SESSION['user_role'] === "ADMIN")
@@ -18,7 +18,6 @@ $servicios_realizados = ($_SESSION['user_role'] === "ADMIN")
 
 // Procesar formulario para registrar un servicio
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agregar'])) {
-    // Validar que todos los datos estén presentes
     if (!empty($_POST['fecha']) && !empty($_POST['codigo_servicio']) && !empty($_POST['id_perro']) && !empty($_POST['precio_final'])) {
         ServicioRealizadoService::registrarServicio(
             $_POST['fecha'],
