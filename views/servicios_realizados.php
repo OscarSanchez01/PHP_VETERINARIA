@@ -18,24 +18,34 @@ $servicios_realizados = ($_SESSION['user_role'] === "ADMIN")
 
 // Procesar formulario para registrar un servicio
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agregar'])) {
-    ServicioRealizadoService::registrarServicio(
-        $_POST['fecha'],
-        $_POST['codigo_servicio'],
-        $_POST['id_perro'],
-        $_SESSION['user_id'],  // DNI del empleado que realiza el servicio
-        $_POST['precio_final'],
-        $_POST['incidencias']
-    );
-    header("Location: servicios_realizados.php");
-    exit;
+    // Validar que todos los datos estén presentes
+    if (!empty($_POST['fecha']) && !empty($_POST['codigo_servicio']) && !empty($_POST['id_perro']) && !empty($_POST['precio_final'])) {
+        ServicioRealizadoService::registrarServicio(
+            $_POST['fecha'],
+            $_POST['codigo_servicio'],
+            $_POST['id_perro'],
+            $_SESSION['user_id'],
+            $_POST['precio_final'],
+            $_POST['incidencias'] ?? null
+        );
+        header("Location: servicios_realizados.php");
+        exit;
+    } else {
+        $error = "Todos los campos obligatorios deben estar llenos.";
+    }
 }
 
 // Procesar solicitud para eliminar un servicio
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar'])) {
-    ServicioRealizadoService::eliminarServicio($_POST['sr_cod']);
-    header("Location: servicios_realizados.php");
-    exit;
+    if (!empty($_POST['Sr_Cod'])) {
+        ServicioRealizadoService::eliminarServicio($_POST['Sr_Cod']);
+        header("Location: servicios_realizados.php");
+        exit;
+    } else {
+        $error = "No se puede eliminar el servicio sin un código válido.";
+    }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -68,7 +78,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar'])) {
 </head>
 <body>
     <h1>Servicios Realizados</h1>
-    <a href="dashboard.php">🔙 Volver al Dashboard</a>
+    <a href="dashboard.php"> Volver al Dashboard</a>
+
+    <?php if (!empty($error)): ?>
+        <p style="color: red;"><?php echo htmlspecialchars($error); ?></p>
+    <?php endif; ?>
 
     <h2>Registrar Servicio Realizado</h2>
     <form method="POST">
@@ -107,14 +121,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar'])) {
             <?php foreach ($servicios_realizados as $servicio): ?>
                 <tr>
                     <td><?php echo htmlspecialchars($servicio['Fecha']); ?></td>
-                    <td><?php echo htmlspecialchars($servicio['Codigo_Servicio']); ?></td>
-                    <td><?php echo htmlspecialchars($servicio['ID_Perro']); ?></td>
-                    <td><?php echo htmlspecialchars($servicio['Dni_Empleado']); ?></td>
+                    <td><?php echo htmlspecialchars($servicio['Cod_Servicio'] ?? 'No disponible'); ?></td>
+                    <td><?php echo htmlspecialchars($servicio['ID_Perro'] ?? 'No disponible'); ?></td>
+                    <td><?php echo htmlspecialchars($servicio['Dni'] ?? 'No disponible'); ?></td>
                     <td><?php echo htmlspecialchars(number_format($servicio['Precio_Final'], 2)) . " €"; ?></td>
                     <td><?php echo htmlspecialchars($servicio['Incidencias'] ?? "Ninguna"); ?></td>
                     <td>
                         <form method="POST" style="display:inline;">
-                            <input type="hidden" name="sr_cod" value="<?php echo $servicio['sr_cod']; ?>">
+                            <input type="hidden" name="Sr_Cod" value="<?php echo $servicio['Sr_Cod']; ?>">
                             <button type="submit" name="eliminar" class="delete-btn">❌ Eliminar</button>
                         </form>
                     </td>

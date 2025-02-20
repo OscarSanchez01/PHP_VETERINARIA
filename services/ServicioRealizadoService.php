@@ -1,6 +1,6 @@
 <?php
 class ServicioRealizadoService {
-    private static $api_url = "http://localhost/gromer/SerWeb/servicios_recibidos.php";
+    private static $api_url = "http://localhost/gromer/SerWeb/servicios_realizados.php";
 
     // Obtener los servicios según el rol del usuario
     public static function getServicios($dni_empleado = null) {
