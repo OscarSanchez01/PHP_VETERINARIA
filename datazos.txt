@@ -1,0 +1,30 @@
+http://localhost/PHP_VETERINARIA/views/dashboard.php
+
+Falta por implementar el registro ¿Tiene sentido que puedas regístrate como empleado sin que te cree un administrador? Revisar PDF
+
+
+Falta que se pueda editar la contraseña de un empleado en la vista de empleado, sólo administradores.
+
+
+Falta que el programa no te deje acceder a otros ficheros si no te has registrado
+
+
+No se muestra el nombre del usuario al iniciar sesión (eliminar o corregir)
+
+
+! Falta la validación en formularios
+
+! Falta mejorar las interfaces (visualmente)
+
+! Falta implementar perro_recibe_servicio
+
+
+
+
+Usuario Admin:
+prueba@prueba.es
+1234
+
+Usuario Empleado (Auxiliar):
+auxiliar@aux.es
+1234
