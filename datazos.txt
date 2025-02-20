@@ -1,4 +1,5 @@
 http://localhost/PHP_VETERINARIA/views/dashboard.php
+http://localhost/PHP_VETERINARIA/views/login.php
 
 Falta por implementar el registro ¿Tiene sentido que puedas regístrate como empleado sin que te cree un administrador? Revisar PDF
 
