@@ -23,12 +23,27 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["delete"])) {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
     <title>Servicios Realizados</title>
 </head>
 <body>
-    <h2>Lista de Servicios Realizados</h2>
+    <h1>Lista de Servicios Realizados</h1>
+    <a href="dashboard.php">Volver al Dashboard</a>
+
+    <h2>Agregar Servicio Realizado</h2>
+    <form method="POST">
+        <label>Cod_Servicio: <input type="text" name="Cod_Servicio" required></label>
+        <label>ID_Perro: <input type="number" name="ID_Perro" required></label>
+        <label>Fecha: <input type="date" name="Fecha" required></label>
+        <label>Incidencias: <input type="text" name="Incidencias"></label>
+        <label>Precio_Final: <input type="number" step="0.01" name="Precio_Final" required></label>
+        <label>Dni: <input type="text" name="Dni" required></label>
+        <button type="submit">Agregar</button>
+    </form>
+    
+    <h2>Listar Servicios Realizados</h2>
     <table border="1">
         <tr>
             <th>ID</th>
@@ -53,16 +68,5 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["delete"])) {
         </tr>
         <?php endforeach; ?>
     </table>
-
-    <h2>Agregar Servicio Realizado</h2>
-    <form method="POST">
-        <label>Cod_Servicio: <input type="text" name="Cod_Servicio" required></label><br>
-        <label>ID_Perro: <input type="number" name="ID_Perro" required></label><br>
-        <label>Fecha: <input type="date" name="Fecha" required></label><br>
-        <label>Incidencias: <input type="text" name="Incidencias"></label><br>
-        <label>Precio_Final: <input type="number" step="0.01" name="Precio_Final" required></label><br>
-        <label>Dni: <input type="text" name="Dni" required></label><br>
-        <button type="submit">Agregar</button>
-    </form>
 </body>
 </html>

@@ -44,10 +44,20 @@ switch ($method) {
         listarServiciosRealizados($conn);
         break;
 
-    case 'POST':
-        $data = json_decode(file_get_contents("php://input"), true);
-        agregarServicioRealizado($conn, $data);
-        break;
+        case 'POST':
+            $rawData = file_get_contents("php://input");
+            
+            // Si viene en JSON, decodificarlo
+            $data = json_decode($rawData, true);
+        
+            // Si no es JSON, asumir que es un formulario normal
+            if ($data === null) {
+                $data = $_POST;
+            }
+        
+            agregarServicioRealizado($conn, $data);
+            break;
+        
 
     case 'DELETE':
         parse_str(file_get_contents("php://input"), $data);
