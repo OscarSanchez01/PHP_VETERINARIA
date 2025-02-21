@@ -2,12 +2,17 @@
 require_once "../services/ServicioRealizadoService.php";
 
 class ServicioRealizadoController {
+    
     public function listarServiciosRealizados() {
         return ServicioRealizadoService::getServicios();
     }
 
-    public function listarServiciosPorEmpleado($dni_empleado) {
-        return ServicioRealizadoService::getServicios($dni_empleado);
+    public function agregarServicioRealizado($data) {
+        return ServicioRealizadoService::addServicioRealizado($data);
+    }
+
+    public function eliminarServicioRealizado($sr_cod) {
+        return ServicioRealizadoService::deleteServicioRealizado($sr_cod);
     }
 }
 ?>

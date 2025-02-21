@@ -14,77 +14,48 @@ function listarServiciosRealizados($conn) {
     }
 }
 
-// Listar servicios realizados por un empleado específico
-function listarServiciosPorEmpleado($conn, $dni_empleado) {
+// Insertar un nuevo servicio realizado
+function agregarServicioRealizado($conn, $data) {
     try {
-        $stmt = $conn->prepare("SELECT * FROM perro_recibe_servicio WHERE Dni = ?");
-        $stmt->execute([$dni_empleado]);
-        echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+        $stmt = $conn->prepare("INSERT INTO perro_recibe_servicio (Cod_Servicio, ID_Perro, Fecha, Incidencias, Precio_Final, Dni) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$data['Cod_Servicio'], $data['ID_Perro'], $data['Fecha'], $data['Incidencias'], $data['Precio_Final'], $data['Dni']]);
+        echo json_encode(["success" => "Servicio agregado correctamente"]);
     } catch (Exception $e) {
-        echo json_encode(["error" => "Error al obtener servicios del empleado: " . $e->getMessage()]);
-    }
-}
-
-// Registrar un servicio realizado
-function registrarServicioRealizado($conn) {
-    $data = json_decode(file_get_contents("php://input"), true);
-
-    if (!isset($data['Fecha'], $data['Cod_Servicio'], $data['ID_Perro'], $data['Dni'], $data['Precio_Final'])) {
-        echo json_encode(["error" => "Faltan datos obligatorios"]);
-        exit;
-    }
-
-    try {
-        $stmt = $conn->prepare("INSERT INTO perro_recibe_servicio (Fecha, Cod_Servicio, ID_Perro, Dni, Precio_Final, Incidencias) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->execute([
-            $data['Fecha'],
-            $data['Cod_Servicio'],
-            $data['ID_Perro'],
-            $data['Dni'],
-            $data['Precio_Final'],
-            $data['Incidencias'] ?? null
-        ]);
-
-        echo json_encode(["success" => "Servicio registrado correctamente"]);
-    } catch (Exception $e) {
-        echo json_encode(["error" => "Error al registrar servicio: " . $e->getMessage()]);
+        echo json_encode(["error" => "Error al agregar servicio: " . $e->getMessage()]);
     }
 }
 
 // Eliminar un servicio realizado
-function eliminarServicioRealizado($conn) {
-    parse_str(file_get_contents("php://input"), $_DELETE);
-    if (!isset($_DELETE['Sr_Cod'])) {
-        echo json_encode(["error" => "Falta el código del servicio realizado"]);
-        exit;
-    }
-
+function eliminarServicioRealizado($conn, $sr_cod) {
     try {
         $stmt = $conn->prepare("DELETE FROM perro_recibe_servicio WHERE Sr_Cod = ?");
-        $stmt->execute([$_DELETE['Sr_Cod']]);
-
+        $stmt->execute([$sr_cod]);
         echo json_encode(["success" => "Servicio eliminado correctamente"]);
     } catch (Exception $e) {
         echo json_encode(["error" => "Error al eliminar servicio: " . $e->getMessage()]);
     }
 }
 
-// Determinar qué función ejecutar con switch-case
-switch ($_SERVER['REQUEST_METHOD']) {
+// Manejo de la API con switch
+$method = $_SERVER['REQUEST_METHOD'];
+
+switch ($method) {
     case 'GET':
-        if (isset($_GET['dni_empleado'])) {
-            listarServiciosPorEmpleado($conn, $_GET['dni_empleado']);
-        } else {
-            listarServiciosRealizados($conn);
-        }
+        listarServiciosRealizados($conn);
         break;
+
     case 'POST':
-        registrarServicioRealizado($conn);
+        $data = json_decode(file_get_contents("php://input"), true);
+        agregarServicioRealizado($conn, $data);
         break;
+
     case 'DELETE':
-        eliminarServicioRealizado($conn);
+        parse_str(file_get_contents("php://input"), $data);
+        eliminarServicioRealizado($conn, $data['Sr_Cod']);
         break;
+
     default:
-        echo json_encode(["error" => "Método HTTP no permitido"]);
+        echo json_encode(["error" => "Método no permitido"]);
+        break;
 }
 ?>
