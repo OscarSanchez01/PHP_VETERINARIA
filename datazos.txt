@@ -106,7 +106,7 @@ array con toda la información de sus perros.
     o C9. Dar de alta nuevos servicios.
     o C11. Consultar Clientes y perros
 
-
+    
 
 OPTATIVAS:
 -Incorporar una columna “Mostrar Detalles” al listado de servicios realizados. Mostrar

@@ -1,8 +1,30 @@
 <?php
 require_once "../controllers/ServicioRealizadoController.php";
-$controller = new ServicioRealizadoController();
-$servicios = $controller->listarServiciosRealizados();
+require_once "../services/EmpleadoService.php"; // Se requiere para obtener la lista de empleados
 
+$controller = new ServicioRealizadoController();
+$empleados = EmpleadoService::getEmpleados(); // Obtener lista de empleados
+
+// Si se aplica un filtro por empleado
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['dni_empleado']) && !empty($_GET['dni_empleado'])) {
+    $servicios = $controller->listarServiciosPorEmpleado($_GET['dni_empleado']);
+} else {
+    $servicios = $controller->listarServiciosRealizados();
+}
+
+// Si se está editando un servicio, se cargan los datos en el formulario
+$editando = false;
+$servicioEditar = [
+    "Sr_Cod" => "",
+    "Cod_Servicio" => "",
+    "ID_Perro" => "",
+    "Fecha" => "",
+    "Incidencias" => "",
+    "Precio_Final" => "",
+    "Dni" => ""
+];
+
+// Procesar inserción o actualización
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $data = [
         "Cod_Servicio" => $_POST["Cod_Servicio"],
@@ -12,13 +34,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         "Precio_Final" => $_POST["Precio_Final"],
         "Dni" => $_POST["Dni"]
     ];
-    $controller->agregarServicioRealizado($data);
+
+    if (!empty($_POST["update_id"])) {
+        $data["Sr_Cod"] = $_POST["update_id"];
+        $controller->actualizarServicioRealizado($data);
+    } else {
+        $controller->agregarServicioRealizado($data);
+    }
+
     header("Location: servicios_realizados.php");
+    exit();
 }
 
+// Procesar eliminación
 if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["delete"])) {
     $controller->eliminarServicioRealizado($_GET["delete"]);
     header("Location: servicios_realizados.php");
+    exit();
+}
+
+// Cargar datos para edición
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["edit"])) {
+    $editando = true;
+    foreach ($servicios as $servicio) {
+        if ($servicio["Sr_Cod"] == $_GET["edit"]) {
+            $servicioEditar = $servicio;
+            break;
+        }
+    }
 }
 ?>
 
@@ -32,17 +75,37 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["delete"])) {
     <h1>Lista de Servicios Realizados</h1>
     <a href="dashboard.php">Volver al Dashboard</a>
 
-    <h2>Agregar Servicio Realizado</h2>
-    <form method="POST">
-        <label>Cod_Servicio: <input type="text" name="Cod_Servicio" required></label>
-        <label>ID_Perro: <input type="number" name="ID_Perro" required></label>
-        <label>Fecha: <input type="date" name="Fecha" required></label>
-        <label>Incidencias: <input type="text" name="Incidencias"></label>
-        <label>Precio_Final: <input type="number" step="0.01" name="Precio_Final" required></label>
-        <label>Dni: <input type="text" name="Dni" required></label>
-        <button type="submit">Agregar</button>
+    <h2>Filtrar por Empleado</h2>
+    <form method="GET">
+        <label>Selecciona un empleado:</label>
+        <select name="dni_empleado">
+            <option value="">Todos</option>
+            <?php foreach ($empleados as $empleado): ?>
+                <option value="<?php echo $empleado['Dni']; ?>" <?php echo isset($_GET['dni_empleado']) && $_GET['dni_empleado'] == $empleado['Dni'] ? 'selected' : ''; ?>>
+                    <?php echo $empleado['Nombre'] . " " . $empleado['Apellido1'] . " - " . $empleado['Dni']; ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+        <button type="submit">Filtrar</button>
+        <a href="servicios_realizados.php"><button type="button">Quitar Filtro</button></a>
     </form>
-    
+
+
+    <h2><?php echo $editando ? "Modificar Servicio Realizado" : "Agregar Servicio Realizado"; ?></h2>
+    <form method="POST">
+        <input type="hidden" name="update_id" value="<?= $editando ? $servicioEditar['Sr_Cod'] : "" ?>">
+        <label>Cod_Servicio: <input type="text" name="Cod_Servicio" value="<?= $editando ? $servicioEditar['Cod_Servicio'] : "" ?>" required></label>
+        <label>ID_Perro: <input type="number" name="ID_Perro" value="<?= $editando ? $servicioEditar['ID_Perro'] : "" ?>" required></label>
+        <label>Fecha: <input type="date" name="Fecha" value="<?= $editando ? $servicioEditar['Fecha'] : "" ?>" required></label>
+        <label>Incidencias: <input type="text" name="Incidencias" value="<?= $editando ? $servicioEditar['Incidencias'] : "" ?>"></label>
+        <label>Precio_Final: <input type="number" step="0.01" name="Precio_Final" value="<?= $editando ? $servicioEditar['Precio_Final'] : "" ?>" required></label>
+        <label>Dni: <input type="text" name="Dni" value="<?= $editando ? $servicioEditar['Dni'] : "" ?>" required></label>
+        <button type="submit"><?= $editando ? "Guardar Cambios" : "Agregar" ?></button>
+        <?php if ($editando): ?>
+            <a href="servicios_realizados.php">Cancelar</a>
+        <?php endif; ?>
+    </form>
+
     <h2>Listar Servicios Realizados</h2>
     <table border="1">
         <tr>
@@ -56,16 +119,19 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["delete"])) {
             <th>Acciones</th>
         </tr>
         <?php foreach ($servicios as $servicio): ?>
-        <tr>
-            <td><?= $servicio["Sr_Cod"] ?></td>
-            <td><?= $servicio["Cod_Servicio"] ?></td>
-            <td><?= $servicio["ID_Perro"] ?></td>
-            <td><?= $servicio["Fecha"] ?></td>
-            <td><?= $servicio["Incidencias"] ?></td>
-            <td><?= $servicio["Precio_Final"] ?></td>
-            <td><?= $servicio["Dni"] ?></td>
-            <td><a href="?delete=<?= $servicio["Sr_Cod"] ?>">Eliminar</a></td>
-        </tr>
+            <tr>
+                <td><?= $servicio["Sr_Cod"] ?></td>
+                <td><?= $servicio["Cod_Servicio"] ?></td>
+                <td><?= $servicio["ID_Perro"] ?></td>
+                <td><?= $servicio["Fecha"] ?></td>
+                <td><?= $servicio["Incidencias"] ?></td>
+                <td><?= $servicio["Precio_Final"] ?></td>
+                <td><?= $servicio["Dni"] ?></td>
+                <td>
+                    <a href="?edit=<?= $servicio["Sr_Cod"] ?>">Modificar</a>
+                    <a href="?delete=<?= $servicio["Sr_Cod"] ?>" onclick="return confirm('¿Seguro que quieres eliminar este servicio?')">Eliminar</a>
+                </td>
+            </tr>
         <?php endforeach; ?>
     </table>
 </body>
