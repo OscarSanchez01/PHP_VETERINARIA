@@ -5,7 +5,8 @@ header('Content-Type: application/json');
 $conn = Database::getConnection();
 
 // Obtener todos los servicios
-function obtenerServicios($conn) {
+function obtenerServicios($conn)
+{
     try {
         $stmt = $conn->query("SELECT * FROM servicios");
         echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
@@ -15,7 +16,8 @@ function obtenerServicios($conn) {
 }
 
 // Eliminar un servicio por Código
-function eliminarServicio($conn) {
+function eliminarServicio($conn)
+{
     parse_str(file_get_contents("php://input"), $_DELETE);
     if (!isset($_DELETE['codigo'])) {
         echo json_encode(["error" => "Falta el código del servicio"]);
@@ -34,7 +36,8 @@ function eliminarServicio($conn) {
 }
 
 // Insertar un nuevo servicio
-function insertarServicio($conn) {
+function insertarServicio($conn)
+{
     $data = json_decode(file_get_contents("php://input"), true);
 
     if (!isset($data['Codigo'], $data['Nombre'], $data['Precio'], $data['Descripcion'])) {
@@ -58,7 +61,8 @@ function insertarServicio($conn) {
 }
 
 // Actualizar el precio de un servicio
-function actualizarPrecioServicio($conn) {
+function actualizarPrecioServicio($conn)
+{
     $data = json_decode(file_get_contents("php://input"), true);
 
     if (!isset($data['Codigo'], $data['Precio'])) {
@@ -96,4 +100,3 @@ switch ($_SERVER['REQUEST_METHOD']) {
     default:
         echo json_encode(["error" => "Método HTTP no permitido"]);
 }
-?>

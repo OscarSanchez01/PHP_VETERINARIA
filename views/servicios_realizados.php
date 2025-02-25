@@ -2,8 +2,10 @@
 require_once "../controllers/ServicioRealizadoController.php";
 $controller = new ServicioRealizadoController();
 $servicios = $controller->listarServiciosRealizados();
+$errorServicioRealizado = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
     $data = [
         "Cod_Servicio" => $_POST["Cod_Servicio"],
         "ID_Perro" => $_POST["ID_Perro"],
@@ -12,8 +14,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         "Precio_Final" => $_POST["Precio_Final"],
         "Dni" => $_POST["Dni"]
     ];
-    $controller->agregarServicioRealizado($data);
-    header("Location: servicios_realizados.php");
+    for ($i = 0; $i < count($data); $i++) {
+        if (!isset($data[$i]) || $data[$i] == "") {
+            $errorServicioRealizado = "Algun dato esta vacio";
+        }
+    }
+    if ($errorServicioRealizado === "") {
+        $controller->agregarServicioRealizado($data);
+        header("Location: servicios_realizados.php");
+    }
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["delete"])) {
@@ -24,25 +33,33 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["delete"])) {
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Servicios Realizados</title>
 </head>
+
 <body>
     <h1>Lista de Servicios Realizados</h1>
     <a href="dashboard.php">Volver al Dashboard</a>
 
     <h2>Agregar Servicio Realizado</h2>
     <form method="POST">
-        <label>Cod_Servicio: <input type="text" name="Cod_Servicio" required></label>
-        <label>ID_Perro: <input type="number" name="ID_Perro" required></label>
-        <label>Fecha: <input type="date" name="Fecha" required></label>
+        <label>Cod_Servicio: <input type="text" name="Cod_Servicio"></label>
+        <label>ID_Perro: <input type="number" name="ID_Perro"></label>
+        <label>Fecha: <input type="date" name="Fecha"></label>
         <label>Incidencias: <input type="text" name="Incidencias"></label>
-        <label>Precio_Final: <input type="number" step="0.01" name="Precio_Final" required></label>
-        <label>Dni: <input type="text" name="Dni" required></label>
+        <label>Precio_Final: <input type="number" step="0.01" name="Precio_Final"></label>
+        <label>Dni: <input type="text" name="Dni"></label>
         <button type="submit">Agregar</button>
     </form>
-    
+
+    <?php
+    if ($errorServicioRealizado !== "") {
+        echo '<p style="color: red;">' . $errorServicioRealizado . '</p>';
+    }
+    ?>
+
     <h2>Listar Servicios Realizados</h2>
     <table border="1">
         <tr>
@@ -56,17 +73,18 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["delete"])) {
             <th>Acciones</th>
         </tr>
         <?php foreach ($servicios as $servicio): ?>
-        <tr>
-            <td><?= $servicio["Sr_Cod"] ?></td>
-            <td><?= $servicio["Cod_Servicio"] ?></td>
-            <td><?= $servicio["ID_Perro"] ?></td>
-            <td><?= $servicio["Fecha"] ?></td>
-            <td><?= $servicio["Incidencias"] ?></td>
-            <td><?= $servicio["Precio_Final"] ?></td>
-            <td><?= $servicio["Dni"] ?></td>
-            <td><a href="?delete=<?= $servicio["Sr_Cod"] ?>">Eliminar</a></td>
-        </tr>
+            <tr>
+                <td><?= $servicio["Sr_Cod"] ?></td>
+                <td><?= $servicio["Cod_Servicio"] ?></td>
+                <td><?= $servicio["ID_Perro"] ?></td>
+                <td><?= $servicio["Fecha"] ?></td>
+                <td><?= $servicio["Incidencias"] ?></td>
+                <td><?= $servicio["Precio_Final"] ?></td>
+                <td><?= $servicio["Dni"] ?></td>
+                <td><a href="?delete=<?= $servicio["Sr_Cod"] ?>">Eliminar</a></td>
+            </tr>
         <?php endforeach; ?>
     </table>
 </body>
+
 </html>
