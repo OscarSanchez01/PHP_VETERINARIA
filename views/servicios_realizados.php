@@ -8,8 +8,15 @@ $empleados = EmpleadoService::getEmpleados(); // Obtener lista de empleados
 // Si se aplica un filtro por empleado
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['dni_empleado']) && !empty($_GET['dni_empleado'])) {
     $servicios = $controller->listarServiciosPorEmpleado($_GET['dni_empleado']);
+    $filtroActivo = true;
 } else {
     $servicios = $controller->listarServiciosRealizados();
+    $filtroActivo = false;
+}
+
+// Asegurarse de que `$servicios` sea un array válido para evitar errores
+if (!is_array($servicios)) {
+    $servicios = [];
 }
 
 // Si se está editando un servicio, se cargan los datos en el formulario
@@ -90,6 +97,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["edit"])) {
         <a href="servicios_realizados.php"><button type="button">Quitar Filtro</button></a>
     </form>
 
+    <?php if ($filtroActivo && empty($servicios)): ?>
+        <p style="color: red; font-weight: bold;">El empleado no tiene servicios.</p>
+    <?php endif; ?>
 
     <h2><?php echo $editando ? "Modificar Servicio Realizado" : "Agregar Servicio Realizado"; ?></h2>
     <form method="POST">
@@ -118,21 +128,27 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["edit"])) {
             <th>Dni</th>
             <th>Acciones</th>
         </tr>
-        <?php foreach ($servicios as $servicio): ?>
+        <?php if (!empty($servicios)): ?>
+            <?php foreach ($servicios as $servicio): ?>
+                <tr>
+                    <td><?= htmlspecialchars($servicio["Sr_Cod"] ?? 'N/A') ?></td>
+                    <td><?= htmlspecialchars($servicio["Cod_Servicio"] ?? 'N/A') ?></td>
+                    <td><?= htmlspecialchars($servicio["ID_Perro"] ?? 'N/A') ?></td>
+                    <td><?= htmlspecialchars($servicio["Fecha"] ?? 'N/A') ?></td>
+                    <td><?= htmlspecialchars($servicio["Incidencias"] ?? 'Ninguna') ?></td>
+                    <td><?= htmlspecialchars(number_format($servicio["Precio_Final"] ?? 0, 2)) . " €"; ?></td>
+                    <td><?= htmlspecialchars($servicio["Dni"] ?? 'N/A') ?></td>
+                    <td>
+                        <a href="?edit=<?= $servicio["Sr_Cod"] ?>">Modificar</a>
+                        <a href="?delete=<?= $servicio["Sr_Cod"] ?>" onclick="return confirm('¿Seguro que quieres eliminar este servicio?')">Eliminar</a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        <?php else: ?>
             <tr>
-                <td><?= $servicio["Sr_Cod"] ?></td>
-                <td><?= $servicio["Cod_Servicio"] ?></td>
-                <td><?= $servicio["ID_Perro"] ?></td>
-                <td><?= $servicio["Fecha"] ?></td>
-                <td><?= $servicio["Incidencias"] ?></td>
-                <td><?= $servicio["Precio_Final"] ?></td>
-                <td><?= $servicio["Dni"] ?></td>
-                <td>
-                    <a href="?edit=<?= $servicio["Sr_Cod"] ?>">Modificar</a>
-                    <a href="?delete=<?= $servicio["Sr_Cod"] ?>" onclick="return confirm('¿Seguro que quieres eliminar este servicio?')">Eliminar</a>
-                </td>
+                <td colspan="8" style="text-align: center; color: red; font-weight: bold;">No hay servicios registrados.</td>
             </tr>
-        <?php endforeach; ?>
+        <?php endif; ?>
     </table>
 </body>
 </html>
