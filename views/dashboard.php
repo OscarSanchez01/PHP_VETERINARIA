@@ -19,7 +19,7 @@ $email = $_SESSION['user_email'] ?? "Usuario Desconocido";
 </head>
 <body>
     <h1>Panel de Control</h1>
-    <p>Bienvenido, <?php echo $email; ?> (<?php echo strtoupper($role); ?>)</p>
+    <p>Bienvenido usuario <?php echo strtoupper($role); ?></p>
 
     <h2>Menú</h2>
     <ul>
