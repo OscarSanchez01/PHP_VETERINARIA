@@ -1,32 +1,26 @@
 http://localhost/PHP_VETERINARIA/views/dashboard.php
 http://localhost/PHP_VETERINARIA/views/login.php
 
-Falta por implementar el registro ¿Tiene sentido que puedas regístrate como empleado sin que te cree un administrador? Revisar PDF
+--------------------
 
+Usuario Admin:
+prueba@prueba.es
+1234
 
-Falta que se pueda editar la contraseña de un empleado en la vista de empleado, sólo administradores.
-
-
-Falta que el programa no te deje acceder a otros ficheros si no te has registrado
-
-
-No se muestra el nombre del usuario al iniciar sesión (eliminar o corregir)
-
-
-! Falta la validación en formularios
-
-! Falta mejorar las interfaces (visualmente)
-
-! Falta implementar perro_recibe_servicio
-
-
-
-
+Usuario Empleado (Auxiliar):
+auxiliar@aux.es
+1234
 
 --------------------
 
+<<<<<<< HEAD
 Validación de formularios,
 - Usuario: HECHO
+=======
+Validación de formularios:
+
+- Usuario:
+>>>>>>> aac8a9760e5afe5e24d5baa7eac7f7859e13038e
 -> Comprobaciones:
     Que no falten datos.
     Que el DNI no exista. 
@@ -73,24 +67,65 @@ Validación de formularios,
     Inserción incorrecta: “Faltan datos”, “Fecha o precio incorrectos”. 
 
 - Extra: El DNI por defecto con el usuario Empleado será el DNI de ese Empleado
- Opcional: realizar las validaciones en la vista.
+    Opcional: realizar las validaciones en la vista.
 o DNI:
- Admin, lista desplegable con los DNIs de los ESTILISTAS y
+- Admin, lista desplegable con los DNIs de los ESTILISTAS y
 NUTRICIONISTAS (son los empleados que pueden realizar servicios).
- Empleado, su DNI por defecto.
+- Empleado, su DNI por defecto.
 o SERVICIO:
- Admin, lista desplegable con los servicios que puede realizar el DNI
+- Admin, lista desplegable con los servicios que puede realizar el DNI
 elegido. Si es Nutricionista: los servicios que empiezan por “SVNUT”. Si es
 Estilista: los servicios que empiezan por “SVBE”.
 o PRECIO: se cargará el precio por defecto que puede ser modificado por ambos
 roles. 
 
+
+
+
+! NUEVO MÉTODO: "Filtro" que elija un empleado y sólo liste los servicios de ese empleado
+B9. Método que devuelva todos los servicios realizados por un empleado determinado. El
+método recibirá el DNI del empleado y devolverá un array con todas las filas de la tabla
+perro_recibe_ser para ese empleado ordenado por fechas. Cada elemento del array tendrá
+los siguientes campos:
+    o El sr_cod.
+    o La fecha de realización
+    o El código del servicio realizado.
+    o El id_perro
+    o El DNI del empleado (será el del empleado).
+    o Precio final del servicio practicado.
+    o La incidencia.
+> Mensajes
+    o En caso de obtener array vacío: “El empleado no tiene servicios”.
+
+! NUEVO MÉTODO: "Filtro" que elija un cliente y sólo liste los perros de ese cliente
+B11. Método que devuelva, dado un Cliente, los perros. Dado un DNI, el método devolverá un
+array con toda la información de sus perros.
+
+
+
+
+! Funcionalidades que son exclusivas del administrador
+
+! Funcionalidades de un empleado: 
+    o C5. Consultar los servicios que ha realizado.
+    o C9. Dar de alta nuevos servicios.
+    o C11. Consultar Clientes y perros
+
+
+
+OPTATIVAS:
+-Incorporar una columna “Mostrar Detalles” al listado de servicios realizados. Mostrar
+detalles dará información sobre:
+    o El Nombre Completo del Cliente
+    o El nombre del perro, fecha de nacimiento, raza, peso, altura y observaciones.
+    o Además, desde la vista de Administrador, mostrará los detalles del empleado que
+    lo entendió.
+
+-Incorporar una columna “borrar” y “modificar” en el listado de servicios para la vista
+administrador. El modificar no tendrá funcionalidad.
+
+-Para mejorar la inserción y el borrado de perros, se puede plantear en el listado de
+perros por CLIENTE, un botón de borrado por elemento. E incluir el botón de insertar
+nuevo perro. 
+
 --------------------
-
-Usuario Admin:
-prueba@prueba.es
-1234
-
-Usuario Empleado (Auxiliar):
-auxiliar@aux.es
-1234
