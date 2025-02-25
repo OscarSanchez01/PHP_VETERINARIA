@@ -22,6 +22,71 @@ No se muestra el nombre del usuario al iniciar sesión (eliminar o corregir)
 
 
 
+
+--------------------
+
+Validación de formularios,
+- Usuario:
+-> Comprobaciones:
+    Que no falten datos.
+    Que el DNI no exista. 
+-> Mensajes
+     Inserción correcta: “Cliente DNI: XXXXXXX insertado correctamente”.
+     Inserción incorrecta: “El Cliente ya está dado de alta” o “Faltan datos”. 
+
+- Perro:
+-> Comprobaciones:
+    Que no falten datos.
+    -Comprobar el que el perro no existe ya en la base de datos. Esto se puede
+    realizar consultando los valores para el CHIP, puesto que es único.
+    -Comprobar que el dueño existe en la tabla de Clientes. Se puede solicitar este
+    dato inicialmente y comprobar que el cliente existe.
+-> Mensajes
+    Inserción correcta: “Perro CHIP: XXXXXXX insertado correctamente”.
+    Inserción incorrecta: “El perro ya existe” o “Faltan datos”. 
+
+- Servicio:
+-> Comprobaciones:
+    Que no falten datos.
+-> Mensajes
+    Inserción correcta: “Servicio CODIGO:XXXXXXX insertado correctamente”.
+    Inserción incorrecta: “El Servicio ya está dado de alta” o “Faltan datos”. 
+
+- Empleado:
+-> Comprobaciones:
+    Que no falten datos.
+    Que el DNI no exista.
+-> Mensajes
+    Inserción correcta: “Empleado DNI: XXXXXXX insertado correctamente”.
+    Inserción incorrecta: “El Empleado ya está dado de alta” o “Faltan datos”. 
+
+- Perro_recibe_servicio
+-> Comprobaciones:
+    Comprobar que el cod_servicio existe en SERVICIOS.
+    Comprobar que el id_perro existe en PERROS.
+    Comprobar que el DNI del empleado existe en EMPLEADOS.
+    Comprobar que el precio sea numérico >=0.
+    Comprobar que la fecha del servicio <= sysdate.
+    Que no faltan datos.
+-> Mensajes
+    Inserción correcta: “Servicio SR_COD insertado correctamente”.
+    Inserción incorrecta: “Faltan datos”, “Fecha o precio incorrectos”. 
+
+- Extra: El DNI por defecto con el usuario Empleado será el DNI de ese Empleado
+ Opcional: realizar las validaciones en la vista.
+o DNI:
+ Admin, lista desplegable con los DNIs de los ESTILISTAS y
+NUTRICIONISTAS (son los empleados que pueden realizar servicios).
+ Empleado, su DNI por defecto.
+o SERVICIO:
+ Admin, lista desplegable con los servicios que puede realizar el DNI
+elegido. Si es Nutricionista: los servicios que empiezan por “SVNUT”. Si es
+Estilista: los servicios que empiezan por “SVBE”.
+o PRECIO: se cargará el precio por defecto que puede ser modificado por ambos
+roles. 
+
+--------------------
+
 Usuario Admin:
 prueba@prueba.es
 1234

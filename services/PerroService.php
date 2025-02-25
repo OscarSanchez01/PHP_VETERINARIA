@@ -1,6 +1,6 @@
 <?php
 class PerroService {
-    private static $api_url = "http://localhost/gromer/SerWeb/perros.php";
+    private static $api_url = "http://localhost/PHP_VETERINARIA/SerWeb/perros.php";
 
     public static function getPerros() {
         $response = file_get_contents(self::$api_url);

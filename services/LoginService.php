@@ -1,6 +1,6 @@
 <?php
 class LoginService {
-    private static $api_url = "http://localhost/gromer/controllers/LoginController.php";
+    private static $api_url = "http://localhost/PHP_VETERINARIA/controllers/LoginController.php";
 
     public static function login($email, $password) {
         $data = [

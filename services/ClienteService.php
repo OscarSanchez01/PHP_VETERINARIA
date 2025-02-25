@@ -1,6 +1,6 @@
 <?php
 class ClienteService {
-    private static $api_url = "http://localhost/gromer/SerWeb/clientes.php";
+    private static $api_url = "http://localhost/PHP_VETERINARIA/SerWeb/clientes.php";
 
     public static function getClientes() {
         return json_decode(file_get_contents(self::$api_url), true);

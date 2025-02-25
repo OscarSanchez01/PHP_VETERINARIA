@@ -1,6 +1,6 @@
 <?php
 class EmpleadoService {
-    private static $api_url = "http://localhost/gromer/SerWeb/empleados.php";
+    private static $api_url = "http://localhost/PHP_VETERINARIA/SerWeb/empleados.php";
 
     public static function getEmpleados() {
         return json_decode(file_get_contents(self::$api_url), true);
