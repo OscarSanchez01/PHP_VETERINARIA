@@ -1,9 +1,40 @@
 <?php
 require_once "../controllers/ServicioRealizadoController.php";
+require_once "../services/EmpleadoService.php";
+
 $controller = new ServicioRealizadoController();
-$servicios = $controller->listarServiciosRealizados();
+// Obtener lista de empleados
+$empleados = EmpleadoService::getEmpleados();
+
+// Si se aplica un filtro por empleado
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['dni_empleado']) && !empty($_GET['dni_empleado'])) {
+    $servicios = $controller->listarServiciosPorEmpleado($_GET['dni_empleado']);
+    $filtroActivo = true;
+} else {
+    $servicios = $controller->listarServiciosRealizados();
+    $filtroActivo = false;
+}
+
+// Asegurarse de que `$servicios` sea un array válido para evitar errores
+if (!is_array($servicios)) {
+    $servicios = [];
+}
+
+// Si se está editando un servicio, se cargan los datos en el formulario
+$editando = false;
+$servicioEditar = [
+    "Sr_Cod" => "",
+    "Cod_Servicio" => "",
+    "ID_Perro" => "",
+    "Fecha" => "",
+    "Incidencias" => "",
+    "Precio_Final" => "",
+    "Dni" => ""
+];
+
 $errorServicioRealizado = "";
 
+// Procesar inserción o actualización
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $data = [
@@ -25,9 +56,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
+// Procesar eliminación
 if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["delete"])) {
     $controller->eliminarServicioRealizado($_GET["delete"]);
     header("Location: servicios_realizados.php");
+    exit();
 }
 ?>
 
@@ -42,6 +75,25 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["delete"])) {
 <body>
     <h1>Lista de Servicios Realizados</h1>
     <a href="dashboard.php">Volver al Dashboard</a>
+
+    <h2>Filtrar por Empleado</h2>
+    <form method="GET">
+        <label>Selecciona un empleado:</label>
+        <select name="dni_empleado">
+            <option value="">Todos</option>
+            <?php foreach ($empleados as $empleado): ?>
+                <option value="<?php echo $empleado['Dni']; ?>" <?php echo isset($_GET['dni_empleado']) && $_GET['dni_empleado'] == $empleado['Dni'] ? 'selected' : ''; ?>>
+                    <?php echo $empleado['Nombre'] . " " . $empleado['Apellido1'] . " - " . $empleado['Dni']; ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+        <button type="submit">Filtrar</button>
+        <a href="servicios_realizados.php"><button type="button">Quitar Filtro</button></a>
+    </form>
+
+    <?php if ($filtroActivo && empty($servicios)): ?>
+        <p style="color: red; font-weight: bold; text-align:center;">El empleado no tiene servicios.</p>
+    <?php endif; ?>
 
     <h2>Agregar Servicio Realizado</h2>
     <form method="POST">
@@ -60,31 +112,36 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["delete"])) {
     }
     ?>
 
-    <h2>Listar Servicios Realizados</h2>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Cod_Servicio</th>
-            <th>ID_Perro</th>
-            <th>Fecha</th>
-            <th>Incidencias</th>
-            <th>Precio_Final</th>
-            <th>Dni</th>
-            <th>Acciones</th>
-        </tr>
-        <?php foreach ($servicios as $servicio): ?>
+    <?php if (!$filtroActivo || !empty($servicios)): ?>
+        <h2>Listar Servicios Realizados</h2>
+        <table border="1">
             <tr>
-                <td><?= $servicio["Sr_Cod"] ?></td>
-                <td><?= $servicio["Cod_Servicio"] ?></td>
-                <td><?= $servicio["ID_Perro"] ?></td>
-                <td><?= $servicio["Fecha"] ?></td>
-                <td><?= $servicio["Incidencias"] ?></td>
-                <td><?= $servicio["Precio_Final"] ?></td>
-                <td><?= $servicio["Dni"] ?></td>
-                <td><a href="?delete=<?= $servicio["Sr_Cod"] ?>">Eliminar</a></td>
+                <th>ID</th>
+                <th>Cod_Servicio</th>
+                <th>ID_Perro</th>
+                <th>Fecha</th>
+                <th>Incidencias</th>
+                <th>Precio_Final</th>
+                <th>Dni</th>
+                <th>Acciones</th>
             </tr>
-        <?php endforeach; ?>
-    </table>
+            <?php foreach ($servicios as $servicio): ?>
+                <tr>
+                    <td><?= htmlspecialchars($servicio["Sr_Cod"] ?? 'N/A') ?></td>
+                    <td><?= htmlspecialchars($servicio["Cod_Servicio"] ?? 'N/A') ?></td>
+                    <td><?= htmlspecialchars($servicio["ID_Perro"] ?? 'N/A') ?></td>
+                    <td><?= htmlspecialchars($servicio["Fecha"] ?? 'N/A') ?></td>
+                    <td><?= htmlspecialchars($servicio["Incidencias"] ?? 'Ninguna') ?></td>
+                    <td><?= htmlspecialchars(number_format($servicio["Precio_Final"] ?? 0, 2)) . " €"; ?></td>
+                    <td><?= htmlspecialchars($servicio["Dni"] ?? 'N/A') ?></td>
+                    <td>
+                        <a href="?edit=<?= $servicio["Sr_Cod"] ?>">Modificar</a>
+                        <a href="?delete=<?= $servicio["Sr_Cod"] ?>" onclick="return confirm('¿Seguro que quieres eliminar este servicio?')">Eliminar</a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+    <?php endif; ?>
 </body>
 
 </html>
