@@ -23,7 +23,7 @@ Validación de formularios:
      Inserción correcta: “Cliente DNI: XXXXXXX insertado correctamente”.
      Inserción incorrecta: “El Cliente ya está dado de alta” o “Faltan datos”. 
 
-- Perro:
+- Perro: RODRI TRABAJANDO EN EL 
 -> Comprobaciones:
     Que no falten datos.
     -Comprobar el que el perro no existe ya en la base de datos. Esto se puede
@@ -49,7 +49,7 @@ Validación de formularios:
     Inserción correcta: “Empleado DNI: XXXXXXX insertado correctamente”.
     Inserción incorrecta: “El Empleado ya está dado de alta” o “Faltan datos”. 
 
-- Perro_recibe_servicio
+- Perro_recibe_servicio: RODRI TRABAJANDO EN EL
 -> Comprobaciones:
     Comprobar que el cod_servicio existe en SERVICIOS.
     Comprobar que el id_perro existe en PERROS.

@@ -26,10 +26,10 @@ $email = $_SESSION['user_email'] ?? "Usuario Desconocido";
         <li><a href="clientes.php">Gestión de Clientes</a></li>
         <li><a href="perros.php">Gestión de Perros</a></li>
         <li><a href="servicios_realizados.php">Gestión de los servicios realizados</a></li>
+        <li><a href="servicios.php">Gestión de Servicios</a></li>
 
         <?php if ($role === 'ADMIN'): ?>
             <li><a href="empleados.php">Gestión de Empleados</a></li>
-            <li><a href="servicios.php">Gestión de Servicios</a></li>
         <?php endif; ?>
 
         <li><a href="logout.php">Cerrar Sesión</a></li>

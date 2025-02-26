@@ -5,7 +5,8 @@ header('Content-Type: application/json');
 $conn = Database::getConnection();
 
 // Obtener todos los clientes
-function obtenerClientes($conn) {
+function obtenerClientes($conn)
+{
     try {
         $stmt = $conn->query("SELECT * FROM clientes");
         echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
@@ -15,7 +16,8 @@ function obtenerClientes($conn) {
 }
 
 // Eliminar un cliente por DNI
-function eliminarCliente($conn) {
+function eliminarCliente($conn)
+{
     parse_str(file_get_contents("php://input"), $_DELETE);
     if (!isset($_DELETE['dni'])) {
         echo json_encode(["error" => "Falta el DNI del cliente"]);
@@ -34,7 +36,8 @@ function eliminarCliente($conn) {
 }
 
 // Insertar un nuevo cliente
-function insertarCliente($conn) {
+function insertarCliente($conn)
+{
     $data = json_decode(file_get_contents("php://input"), true);
 
     if (!isset($data['Dni'], $data['Nombre'], $data['Apellido1'], $data['Direccion'], $data['Tlfno'])) {
@@ -60,7 +63,8 @@ function insertarCliente($conn) {
 }
 
 // Actualizar un cliente
-function actualizarCliente($conn) {
+function actualizarCliente($conn)
+{
     $data = json_decode(file_get_contents("php://input"), true);
 
     if (!isset($data['Dni'], $data['Nombre'], $data['Apellido1'], $data['Direccion'], $data['Tlfno'])) {
@@ -102,4 +106,3 @@ switch ($_SERVER['REQUEST_METHOD']) {
     default:
         echo json_encode(["error" => "Método HTTP no permitido"]);
 }
-?>

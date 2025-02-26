@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once "../controllers/PerroController.php";
 $controller = new PerroController();
 $perros = $controller->listarPerros();
@@ -115,10 +116,12 @@ if (isset($_GET['editar'])) {
                 <td><?php echo $perro['Dni_duenio']; ?></td>
                 <td>
                     <a href="perros.php?editar=<?php echo $perro['ID_Perro']; ?>">✏️ Editar</a>
-                    <form method="POST" style="display:inline;">
-                        <input type="hidden" name="id_perro" value="<?php echo $perro['ID_Perro']; ?>">
-                        <button type="submit" name="eliminar">❌ Eliminar</button>
-                    </form>
+                    <?php if ($_SESSION['user_role'] !== 'AUXILIAR'): ?>
+                        <form method="POST" style="display:inline;">
+                            <input type="hidden" name="id_perro" value="<?php echo $perro['ID_Perro']; ?>">
+                            <button type="submit" name="eliminar">❌ Eliminar</button>
+                        </form>
+                    <?php endif; ?>
                 </td>
             </tr>
         <?php endforeach; ?>
