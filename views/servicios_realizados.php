@@ -36,7 +36,6 @@ $errorServicioRealizado = "";
 
 // Procesar inserción o actualización
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
     $data = [
         "Cod_Servicio" => $_POST["Cod_Servicio"],
         "ID_Perro" => $_POST["ID_Perro"],
@@ -45,15 +44,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         "Precio_Final" => $_POST["Precio_Final"],
         "Dni" => $_POST["Dni"]
     ];
-    for ($i = 0; $i < count($data); $i++) {
-        if (!isset($data[$i]) || $data[$i] == "") {
-            $errorServicioRealizado = "Algun dato esta vacio";
-        }
-    }
-    if ($errorServicioRealizado === "") {
+
+    if (!empty($_POST["update_id"])) {
+        $data["Sr_Cod"] = $_POST["update_id"];
+        $controller->actualizarServicioRealizado($data);
+    } else {
         $controller->agregarServicioRealizado($data);
-        header("Location: servicios_realizados.php");
     }
+
+    header("Location: servicios_realizados.php");
+    exit();
 }
 
 // Procesar eliminación
@@ -61,6 +61,17 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["delete"])) {
     $controller->eliminarServicioRealizado($_GET["delete"]);
     header("Location: servicios_realizados.php");
     exit();
+}
+
+// Cargar datos para edición
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["edit"])) {
+    $editando = true;
+    foreach ($servicios as $servicio) {
+        if ($servicio["Sr_Cod"] == $_GET["edit"]) {
+            $servicioEditar = $servicio;
+            break;
+        }
+    }
 }
 ?>
 

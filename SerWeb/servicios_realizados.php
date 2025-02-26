@@ -15,7 +15,7 @@ function listarServiciosRealizados($conn) {
 }
 
 // Insertar un nuevo servicio realizado
-function agregarServicioRealizado($conn, $data) {
+function agregarServicioRealizado($conn, $data){
     try {
         $stmt = $conn->prepare("INSERT INTO perro_recibe_servicio (Cod_Servicio, ID_Perro, Fecha, Incidencias, Precio_Final, Dni) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->execute([$data['Cod_Servicio'], $data['ID_Perro'], $data['Fecha'], $data['Incidencias'], $data['Precio_Final'], $data['Dni']]);

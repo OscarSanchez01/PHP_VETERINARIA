@@ -31,7 +31,10 @@ class ServicioRealizadoService {
     }
 
     // Agregar un nuevo servicio realizado
-    public static function addServicioRealizado($data) {
+
+    // Agregar un nuevo servicio realizado
+    public static function addServicioRealizado($data)
+    {
         $options = [
             'http' => [
                 'header'  => "Content-Type: application/json\r\n",
@@ -43,7 +46,7 @@ class ServicioRealizadoService {
         $response = file_get_contents(self::$api_url, false, $context);
         return json_decode($response, true);
     }
-
+    
     // Actualizar un servicio
     public static function updateServicioRealizado($data)
     {
