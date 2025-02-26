@@ -77,10 +77,10 @@ if (isset($_GET['editar'])) {
         </div>
         <nav class="mr-7">
             <ul class="flex gap-5">
-                <li><a class="text-lg text-white font-medium" href="./dashboard.php">Inicio</a></li>
                 <li><a class="text-lg text-white font-medium" href="./perros.php">Perros</a></li>
                 <li><a class="text-lg text-white font-medium" href="./clientes.php">Clientes</a></li>
                 <li><a class="text-lg text-white font-medium" href="./servicios_realizados.php">Servicios Realizados</a></li>
+                <li><a class="text-lg text-white font-medium" href="./servicios.php">Servicios  </a></li>
                 <li><a class="text-lg text-white font-medium" href="./logout.php">Logout</a></li>
             </ul>
         </nav>
