@@ -6,16 +6,22 @@ $controller = new ServicioRealizadoController();
 // Obtener lista de empleados
 $empleados = EmpleadoService::getEmpleados();
 
+$servicios = [];
+$filtroActivo = false;
+$errorServicioRealizado = "";
+
+// Variables para almacenar los valores del formulario en caso de error
+$codServicio = $idPerro = $fecha = $incidencias = $precioFinal = $dniEmpleado = "";
+
 // Si se aplica un filtro por empleado
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['dni_empleado']) && !empty($_GET['dni_empleado'])) {
     $servicios = $controller->listarServiciosPorEmpleado($_GET['dni_empleado']);
     $filtroActivo = true;
 } else {
     $servicios = $controller->listarServiciosRealizados();
-    $filtroActivo = false;
 }
 
-// Asegurarse de que `$servicios` sea un array válido para evitar errores
+// Asegurar `$servicios` como array válido
 if (!is_array($servicios)) {
     $servicios = [];
 }
@@ -32,28 +38,44 @@ $servicioEditar = [
     "Dni" => ""
 ];
 
-$errorServicioRealizado = "";
-
-// Procesar inserción o actualización
+// Procesar inserción o actualización con validaciones
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $data = [
-        "Cod_Servicio" => $_POST["Cod_Servicio"],
-        "ID_Perro" => $_POST["ID_Perro"],
-        "Fecha" => $_POST["Fecha"],
-        "Incidencias" => $_POST["Incidencias"],
-        "Precio_Final" => $_POST["Precio_Final"],
-        "Dni" => $_POST["Dni"]
-    ];
+    $codServicio = $_POST["Cod_Servicio"];
+    $idPerro = $_POST["ID_Perro"];
+    $fecha = $_POST["Fecha"];
+    $incidencias = $_POST["Incidencias"];
+    $precioFinal = $_POST["Precio_Final"];
+    $dniEmpleado = $_POST["Dni"];
 
-    if (!empty($_POST["update_id"])) {
-        $data["Sr_Cod"] = $_POST["update_id"];
-        $controller->actualizarServicioRealizado($data);
+    // Validaciones
+    if (empty($codServicio) || empty($idPerro) || empty($fecha) || empty($precioFinal) || empty($dniEmpleado)) {
+        $errorServicioRealizado = "Todos los campos son obligatorios.";
+    } elseif (!EmpleadoService::existeEmpleado($dniEmpleado)) {
+        $errorServicioRealizado = "El DNI ingresado no corresponde a ningún empleado registrado.";
+    } elseif (!is_numeric($idPerro) || $idPerro <= 0) {
+        $errorServicioRealizado = "El ID del perro debe ser un número válido.";
+    } elseif (!is_numeric($precioFinal) || $precioFinal <= 0) {
+        $errorServicioRealizado = "El precio final debe ser un número mayor que 0.";
     } else {
-        $controller->agregarServicioRealizado($data);
-    }
+        $data = [
+            "Cod_Servicio" => $codServicio,
+            "ID_Perro" => $idPerro,
+            "Fecha" => $fecha,
+            "Incidencias" => $incidencias,
+            "Precio_Final" => $precioFinal,
+            "Dni" => $dniEmpleado
+        ];
 
-    header("Location: servicios_realizados.php");
-    exit();
+        if (!empty($_POST["update_id"])) {
+            $data["Sr_Cod"] = $_POST["update_id"];
+            $controller->actualizarServicioRealizado($data);
+        } else {
+            $controller->agregarServicioRealizado($data);
+        }
+
+        header("Location: servicios_realizados.php");
+        exit();
+    }
 }
 
 // Procesar eliminación
@@ -72,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["edit"])) {
             break;
         }
     }
-} 
+}
 ?>
 
 <!DOCTYPE html>
@@ -102,30 +124,26 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["edit"])) {
         <a href="servicios_realizados.php"><button type="button">Quitar Filtro</button></a>
     </form>
 
-    <?php if ($filtroActivo && empty($servicios)): ?>
+    <?php if (!empty($errorServicioRealizado)): ?>
+        <p style="color: red; font-weight: bold; text-align:center;"><?php echo $errorServicioRealizado; ?></p>
+    <?php elseif ($filtroActivo && empty($servicios)): ?>
         <p style="color: red; font-weight: bold; text-align:center;">El empleado no tiene servicios.</p>
     <?php endif; ?>
 
-    <h2><?php echo $editando ? "Modificar Servicio Realizado" : "Agregar Servicio Realizado"; ?></h2>
+    <h2>Agregar/Modificar Servicio Realizado</h2>
     <form method="POST">
         <input type="hidden" name="update_id" value="<?= $editando ? $servicioEditar['Sr_Cod'] : "" ?>">
-        <label>Cod_Servicio: <input type="text" name="Cod_Servicio" value="<?= $editando ? $servicioEditar['Cod_Servicio'] : "" ?>" required></label>
-        <label>ID_Perro: <input type="number" name="ID_Perro" value="<?= $editando ? $servicioEditar['ID_Perro'] : "" ?>" required></label>
-        <label>Fecha: <input type="date" name="Fecha" value="<?= $editando ? $servicioEditar['Fecha'] : "" ?>" required></label>
-        <label>Incidencias: <input type="text" name="Incidencias" value="<?= $editando ? $servicioEditar['Incidencias'] : "" ?>"></label>
-        <label>Precio_Final: <input type="number" step="0.01" name="Precio_Final" value="<?= $editando ? $servicioEditar['Precio_Final'] : "" ?>" required></label>
-        <label>Dni: <input type="text" name="Dni" value="<?= $editando ? $servicioEditar['Dni'] : "" ?>" required></label>
+        <label>Cod_Servicio: <input type="text" name="Cod_Servicio" value="<?= htmlspecialchars($codServicio) ?>" required></label>
+        <label>ID_Perro: <input type="number" name="ID_Perro" value="<?= htmlspecialchars($idPerro) ?>" required></label>
+        <label>Fecha: <input type="date" name="Fecha" value="<?= htmlspecialchars($fecha) ?>" required></label>
+        <label>Incidencias: <input type="text" name="Incidencias" value="<?= htmlspecialchars($incidencias) ?>"></label>
+        <label>Precio_Final: <input type="number" step="0.01" name="Precio_Final" value="<?= htmlspecialchars($precioFinal) ?>" required></label>
+        <label>Dni: <input type="text" name="Dni" value="<?= htmlspecialchars($dniEmpleado) ?>" required></label>
         <button type="submit"><?= $editando ? "Guardar Cambios" : "Agregar" ?></button>
         <?php if ($editando): ?>
             <a href="servicios_realizados.php">Cancelar</a>
         <?php endif; ?>
     </form>
-
-    <?php
-    if ($errorServicioRealizado !== "") {
-        echo '<p style="color: red;">' . $errorServicioRealizado . '</p>';
-    }
-    ?>
 
     <?php if (!$filtroActivo || !empty($servicios)): ?>
         <h2>Listar Servicios Realizados</h2>
@@ -158,5 +176,4 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["edit"])) {
         </table>
     <?php endif; ?>
 </body>
-
 </html>

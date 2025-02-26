@@ -1,9 +1,17 @@
 <?php
+require_once "../config/db.php";
 class EmpleadoService {
     private static $api_url = "http://localhost/PHP_VETERINARIA/SerWeb/empleados.php";
 
     public static function getEmpleados() {
         return json_decode(file_get_contents(self::$api_url), true);
+    }
+
+    public static function existeEmpleado($dni) {
+        $db = Database::getConnection();
+        $stmt = $db->prepare("SELECT COUNT(*) FROM empleados WHERE Dni = ?");
+        $stmt->execute([$dni]);
+        return $stmt->fetchColumn() > 0;
     }
 
     public static function crearEmpleado($dni, $email, $password, $rol, $nombre, $apellido1, $apellido2, $calle, $numero, $cp, $poblacion, $provincia, $tlfno, $profesion) {
@@ -59,5 +67,7 @@ class EmpleadoService {
         curl_close($ch);
         return json_decode($response, true);
     }
+
+    
 }
 ?>

@@ -1,9 +1,17 @@
 <?php
+require_once "../config/db.php";
 class ServicioService {
     private static $api_url = "http://localhost/PHP_VETERINARIA/SerWeb/servicios.php";
 
     public static function getServicios() {
         return json_decode(file_get_contents(self::$api_url), true);
+    }
+    
+    public static function existeServicio($codServicio) {
+        $db = Database::getConnection();
+        $stmt = $db->prepare("SELECT COUNT(*) FROM servicios WHERE Cod_Servicio = ?");
+        $stmt->execute([$codServicio]);
+        return $stmt->fetchColumn() > 0; 
     }
 
     public static function crearServicio($codigo, $nombre, $precio, $descripcion) {

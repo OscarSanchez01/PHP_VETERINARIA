@@ -1,4 +1,5 @@
 <?php
+require_once "../config/db.php";
 class PerroService {
     private static $api_url = "http://localhost/PHP_VETERINARIA/SerWeb/perros.php";
 
@@ -7,6 +8,13 @@ class PerroService {
         $perros = json_decode($response, true);
         
         return is_array($perros) ? $perros : [];
+    }
+
+    public static function existePerro($idPerro) {
+        $db = Database::getConnection();
+        $stmt = $db->prepare("SELECT COUNT(*) FROM perros WHERE ID_Perro = ?");
+        $stmt->execute([$idPerro]);
+        return $stmt->fetchColumn() > 0;
     }
 
     public static function crearPerro($dni_duenio, $nombre, $fecha_nacimiento, $raza, $peso, $altura, $observaciones, $numero_chip, $sexo) {
