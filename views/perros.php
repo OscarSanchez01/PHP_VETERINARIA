@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once "../frontcontroller.php";
 require_once "../controllers/PerroController.php";
 require_once "../services/ClienteService.php";
 

@@ -1,4 +1,5 @@
 <?php
+require_once "../frontcontroller.php";
 require_once "../controllers/EmpleadoController.php";
 $controller = new EmpleadoController();
 $empleados = $controller->listarEmpleados();

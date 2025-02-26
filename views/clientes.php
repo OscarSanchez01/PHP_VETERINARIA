@@ -1,6 +1,8 @@
 <?php
-session_start();
+
+require_once "../frontcontroller.php";
 require_once "../controllers/ClienteController.php";
+
 $controller = new ClienteController();
 $clientes = $controller->listarClientes();
 $errorCrearCliente = "";
