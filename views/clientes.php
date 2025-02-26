@@ -74,10 +74,9 @@ if (isset($_GET['editar'])) {
 
 <!DOCTYPE html>
 <html lang="es">
-
     <head>
         <meta charset="UTF-8">
-        <title>Servicios Realizados</title>
+        <title>Servicios</title>
         <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
         <link rel="shortcut icon" href="./../assets/images/logo.png" type="image/x-icon">
     </head>
@@ -93,7 +92,7 @@ if (isset($_GET['editar'])) {
                     <li><a class="text-lg text-white font-medium" href="./clientes.php">Clientes</a></li>
                     <li><a class="text-lg text-white font-medium" href="./servicios_realizados.php">Servicios Realizados</a></li>
                     <li><a class="text-lg text-white font-medium" href="./servicios.php">Servicios  </a></li>
-                    <li><a class="text-lg text-white font-medium" href="./logout.php">Logout</a></li>
+                    <li><a class="text-lg text-white font-medium p-2" href="./logout.php">Cerrar sesión</a></li>
                 </ul>
             </nav>
         </header>
@@ -135,31 +134,32 @@ if (isset($_GET['editar'])) {
         <?php endif; ?>
 
         <div class="bg-indigo-500 m-2 rounded-sm p-4">
-        <h2 class="text-white text-2xl mb-5">Lista de Clientes</h2>
-        <table class="w-full">
-            <tr class="flex gap-5 w-full mb-3">
-                <th class="w-[110px] text-white text-center">DNI</th>
-                <th class="w-[200px] text-white text-center">Nombre</th>
-                <th class="w-[300px] text-white text-center">Dirección</th>
-                <th class="w-[120px] text-white text-center">Teléfono</th>
-                <th class="w-[150px] text-white text-center">Acciones</th>
-            </tr>
-            <?php foreach ($clientes as $cliente): ?>
+            <h2 class="text-white text-2xl mb-5">Lista de Clientes</h2>
+            <table class="w-full">
                 <tr class="flex gap-5 w-full mb-3">
-                    <td class="flex items-center justify-center bg-indigo-300 rounded-sm p-2 text-center w-[110px] text-[#E5E5E5]"><?php echo $cliente['Dni']; ?></td>
-                    <td class="flex items-center justify-center bg-indigo-300 rounded-sm p-2 text-center w-[200px] text-[#E5E5E5]"><?php echo $cliente['Nombre'] . " " . $cliente['Apellido1'] . " " . $cliente['Apellido2']; ?></td>
-                    <td class="flex items-center justify-center bg-indigo-300 rounded-sm p-2 text-center w-[300px] text-[#E5E5E5]"><?php echo $cliente['Direccion']; ?></td>
-                    <td class="flex items-center justify-center bg-indigo-300 rounded-sm p-2 text-center w-[120px] text-[#E5E5E5]"><?php echo $cliente['Tlfno']; ?></td>
-                    <td class="flex items-center gap-3">
-                        <button class="bg-indigo-900 rounded-sm p-2 text-white w-[70px]"><a href="clientes.php?editar=<?php echo $cliente['Dni']; ?>">Editar</a></button>
-                        <form method="POST" class="inline">
-                            <input type="hidden" name="dni" value="<?php echo $cliente['Dni']; ?>">
-                            <button class="bg-rose-400 rounded-sm p-2 text-white" type="submit" name="eliminar">Eliminar</button>
-                        </form>
-                    </td>
+                    <th class="w-[110px] text-white text-center">DNI</th>
+                    <th class="w-[200px] text-white text-center">Nombre</th>
+                    <th class="w-[300px] text-white text-center">Dirección</th>
+                    <th class="w-[120px] text-white text-center">Teléfono</th>
+                    <th class="w-[150px] text-white text-center">Acciones</th>
                 </tr>
-            <?php endforeach; ?>
-        </table>
+                <?php foreach ($clientes as $cliente): ?>
+                    <tr class="flex gap-5 w-full mb-3">
+                        <td class="flex items-center justify-center bg-indigo-300 rounded-sm p-2 text-center w-[110px] text-[#E5E5E5]"><?php echo $cliente['Dni']; ?></td>
+                        <td class="flex items-center justify-center bg-indigo-300 rounded-sm p-2 text-center w-[200px] text-[#E5E5E5]"><?php echo $cliente['Nombre'] . " " . $cliente['Apellido1'] . " " . $cliente['Apellido2']; ?></td>
+                        <td class="flex items-center justify-center bg-indigo-300 rounded-sm p-2 text-center w-[300px] text-[#E5E5E5]"><?php echo $cliente['Direccion']; ?></td>
+                        <td class="flex items-center justify-center bg-indigo-300 rounded-sm p-2 text-center w-[120px] text-[#E5E5E5]"><?php echo $cliente['Tlfno']; ?></td>
+                        <td class="flex items-center gap-3">
+                            <button class="bg-indigo-900 rounded-sm p-2 text-white w-[70px]"><a href="clientes.php?editar=<?php echo $cliente['Dni']; ?>">Editar</a></button>
+                            <form method="POST" class="inline">
+                                <input type="hidden" name="dni" value="<?php echo $cliente['Dni']; ?>">
+                                <button class="bg-rose-400 rounded-sm p-2 text-white" type="submit" name="eliminar">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+        </div>
     </body>
 
 </html>

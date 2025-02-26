@@ -114,33 +114,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["edit"])) {
                 <li><a class="text-lg text-white font-medium" href="./clientes.php">Clientes</a></li>
                 <li><a class="text-lg text-white font-medium" href="./servicios_realizados.php">Servicios Realizados</a></li>
                 <li><a class="text-lg text-white font-medium" href="./servicios.php">Servicios  </a></li>
-                <li><a class="text-lg text-white font-medium" href="./logout.php">Logout</a></li>
+                <li><a class="text-lg text-white font-medium p-2" href="./logout.php">Cerrar sesión</a></li>
             </ul>
         </nav>
     </header>
-
-    <div class="bg-indigo-500 m-2 rounded-sm p-4 mb-10">
-        <h2 class="text-white text-2xl mb-5">Filtrar por Empleado</h2>
-        <form method="GET">
-            <label class="text-white text-1xl mb-6 mr-7">Selecciona un empleado:</label>
-            <select class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" name="dni_empleado">
-                <option value="">Todos</option>
-                <?php foreach ($empleados as $empleado): ?>
-                    <option value="<?php echo $empleado['Dni']; ?>" <?php echo isset($_GET['dni_empleado']) && $_GET['dni_empleado'] == $empleado['Dni'] ? 'selected' : ''; ?>>
-                        <?php echo $empleado['Nombre'] . " " . $empleado['Apellido1'] . " - " . $empleado['Dni']; ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-            <button class="bg-indigo-900 rounded-sm p-2 text-white" type="submit">Filtrar</button>
-            <button class="bg-rose-400 rounded-sm p-2 text-white">
-                <a href="servicios_realizados.php">Quitar Filtros</a>
-            </button>
-        </form>
-
-        <?php if ($filtroActivo && empty($servicios)): ?>
-            <p class="text-rose-400 font-bold text-center">El empleado no tiene servicios.</p>
-        <?php endif; ?>
-    </div>
 
     <div class="bg-indigo-500 m-2 rounded-sm p-4 mb-10">
         <h2 class="text-white text-2xl mb-5"><?php echo $editando ? "Modificar Servicio Realizado" : "Agregar Servicio Realizado"; ?></h2>
@@ -167,6 +144,29 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["edit"])) {
             echo '<p class = "text-emerald-400 mt-3">' . $inserccionCorrecta . '</p>';
         }
         ?>
+    </div>
+
+    <div class="bg-indigo-500 m-2 rounded-sm p-4 mb-10">
+        <h2 class="text-white text-2xl mb-5">Filtrar por Empleado</h2>
+        <form method="GET">
+            <label class="text-white text-1xl mb-6 mr-7">Selecciona un empleado:</label>
+            <select class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" name="dni_empleado">
+                <option value="">Todos</option>
+                <?php foreach ($empleados as $empleado): ?>
+                    <option value="<?php echo $empleado['Dni']; ?>" <?php echo isset($_GET['dni_empleado']) && $_GET['dni_empleado'] == $empleado['Dni'] ? 'selected' : ''; ?>>
+                        <?php echo $empleado['Nombre'] . " " . $empleado['Apellido1'] . " - " . $empleado['Dni']; ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+            <button class="bg-indigo-900 rounded-sm p-2 text-white" type="submit">Filtrar</button>
+            <button class="bg-indigo-900 rounded-sm p-2 text-white">
+                <a href="servicios_realizados.php">Quitar Filtros</a>
+            </button>
+        </form>
+
+        <?php if ($filtroActivo && empty($servicios)): ?>
+            <p class="text-rose-400 font-bold text-center">El empleado no tiene servicios.</p>
+        <?php endif; ?>
     </div>
 
     <div class="bg-indigo-500 m-2 rounded-sm p-4">
