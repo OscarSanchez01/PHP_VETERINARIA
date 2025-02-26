@@ -75,89 +75,66 @@ if (isset($_GET['editar'])) {
 <!DOCTYPE html>
 <html lang="es">
 
-<head>
-    <meta charset="UTF-8">
-    <title>Servicios Realizados</title>
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    <link rel="shortcut icon" href="./../assets/images/logo.png" type="image/x-icon">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <title>Servicios Realizados</title>
+        <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+        <link rel="shortcut icon" href="./../assets/images/logo.png" type="image/x-icon">
+    </head>
+    <body>
+        <header class="flex justify-between items-center bg-rose-500 mb-14 p-2 h-[100px]">
+            <div class="flex gap-4 items-center">
+                <img src="./../assets/images/logo.png" class="w-[50px] h-[50px] rounded-3xl" alt="">
+                <h1 class="text-2xl text-white font-medium">Veterineria Ribera</h1>
+            </div>
+            <nav class="mr-7">
+                <ul class="flex gap-5">
+                    <li><a class="text-lg text-white font-medium" href="./perros.php">Perros</a></li>
+                    <li><a class="text-lg text-white font-medium" href="./clientes.php">Clientes</a></li>
+                    <li><a class="text-lg text-white font-medium" href="./servicios_realizados.php">Servicios Realizados</a></li>
+                    <li><a class="text-lg text-white font-medium" href="./servicios.php">Servicios  </a></li>
+                    <li><a class="text-lg text-white font-medium" href="./logout.php">Logout</a></li>
+                </ul>
+            </nav>
+        </header>
 
-
-<body class="bg-indigo-200">
-    <header class="flex justify-between items-center bg-rose-500 mb-14 p-2 h-[100px]">
-        <div class="flex gap-4 items-center">
-            <img src="./../assets/images/logo.png" class="w-[50px] h-[50px] rounded-3xl" alt="">
-            <h1 class="text-2xl text-white font-medium">Veterineria Ribera</h1>
-        </div>
-        <nav class="mr-7">
-            <ul class="flex gap-5">
-                <li><a class="text-lg text-white font-medium" href="./perros.php">Perros</a></li>
-                <li><a class="text-lg text-white font-medium" href="./clientes.php">Clientes</a></li>
-                <li><a class="text-lg text-white font-medium" href="./servicios_realizados.php">Servicios Realizados</a></li>
-                <li><a class="text-lg text-white font-medium" href="./servicios.php">Servicios  </a></li>
-                <li><a class="text-lg text-white font-medium" href="./logout.php">Logout</a></li>
-            </ul>
-        </nav>
-    </header>
-
-
-<body>
-    <h1>Lista de Clientes</h1>
-    <a href="dashboard.php">Volver al Dashboard</a>
-
-    <h2>Agregar Cliente</h2>
-    <form method="POST">
-        <input type="text" name="dni" placeholder="DNI">
-        <input type="text" name="nombre" placeholder="Nombre">
-        <input type="text" name="apellido1" placeholder="Apellido 1">
-        <input type="text" name="apellido2" placeholder="Apellido 2">
-        <input type="text" name="direccion" placeholder="Dirección">
-        <input type="text" name="tlfno" placeholder="Teléfono">
-        <button type="submit" name="agregar">Agregar Cliente</button>
-    </form>
-    <?php
-    if ($errorCrearCliente !== "") {
-        echo '<p style="color: red;">' . $errorCrearCliente . '</p>';
-    }
-    ?>
-
-
-    <div class="bg-indigo-500 m-2 rounded-sm p-4 mb-10">
-        <h2 class="text-white text-2xl mb-5">Agregar Cliente</h2>
-        <form method="POST" class="flex flex-wrap gap-5">
-            <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="dni" placeholder="DNI">
-            <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="nombre" placeholder="Nombre">
-            <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="apellido1" placeholder="Apellido 1">
-            <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="apellido2" placeholder="Apellido 2">
-            <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="direccion" placeholder="Dirección">
-            <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="tlfno" placeholder="Teléfono">
-            <button class="bg-indigo-900 rounded-sm p-2 text-white" type="submit" name="agregar">Agregar Cliente</button>
-        </form>
-        <?php
-        if ($errorCrearCliente !== "") {
-            echo '<p class = "text-rose-400 mt-3">' . $errorCrearCliente . '</p>';
-        }
-        ?>
-    </div>
-    <?php if ($cliente_a_editar): ?>
         <div class="bg-indigo-500 m-2 rounded-sm p-4 mb-10">
-            <h2 class="text-white text-2xl mb-5">Editar Cliente</h2>
+            <h2 class="text-white text-2xl mb-5">Agregar Cliente</h2>
             <form method="POST" class="flex flex-wrap gap-5">
-                <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="hidden" name="dni" value="<?php echo $cliente_a_editar['Dni']; ?>">
-                <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="nombre" placeholder="Nombre" required value="<?php echo $cliente_a_editar['Nombre']; ?>">
-                <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="apellido1" placeholder="Apellido 1" required value="<?php echo $cliente_a_editar['Apellido1']; ?>">
-                <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="apellido2" placeholder="Apellido 2" value="<?php echo $cliente_a_editar['Apellido2']; ?>">
-                <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="direccion" placeholder="Dirección" required value="<?php echo $cliente_a_editar['Direccion']; ?>">
-                <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="tlfno" placeholder="Teléfono" required value="<?php echo $cliente_a_editar['Tlfno']; ?>">
-                <button class="bg-indigo-900 rounded-sm p-2 text-white" type="submit" name="actualizar">Actualizar Cliente</button>
-                <button class="bg-rose-400 rounded-sm p-2 text-white">
-                    <a href="clientes.php">Cancelar</a>
-                </button>
+                <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="dni" placeholder="DNI">
+                <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="nombre" placeholder="Nombre">
+                <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="apellido1" placeholder="Apellido 1">
+                <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="apellido2" placeholder="Apellido 2">
+                <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="direccion" placeholder="Dirección">
+                <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="tlfno" placeholder="Teléfono">
+                <button class="bg-indigo-900 rounded-sm p-2 text-white" type="submit" name="agregar">Agregar Cliente</button>
             </form>
+            <?php
+            if ($errorCrearCliente !== "") {
+                echo '<p class = "text-rose-400 mt-3">' . $errorCrearCliente . '</p>';
+            }
+            ?>
         </div>
-    <?php endif; ?>
 
-    <div class="bg-indigo-500 m-2 rounded-sm p-4">
+        <?php if ($cliente_a_editar): ?>
+            <div class="bg-indigo-500 m-2 rounded-sm p-4 mb-10">
+                <h2 class="text-white text-2xl mb-5">Editar Cliente</h2>
+                <form method="POST" class="flex flex-wrap gap-5">
+                    <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="hidden" name="dni" value="<?php echo $cliente_a_editar['Dni']; ?>">
+                    <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="nombre" placeholder="Nombre" required value="<?php echo $cliente_a_editar['Nombre']; ?>">
+                    <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="apellido1" placeholder="Apellido 1" required value="<?php echo $cliente_a_editar['Apellido1']; ?>">
+                    <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="apellido2" placeholder="Apellido 2" value="<?php echo $cliente_a_editar['Apellido2']; ?>">
+                    <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="direccion" placeholder="Dirección" required value="<?php echo $cliente_a_editar['Direccion']; ?>">
+                    <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="tlfno" placeholder="Teléfono" required value="<?php echo $cliente_a_editar['Tlfno']; ?>">
+                    <button class="bg-indigo-900 rounded-sm p-2 text-white" type="submit" name="actualizar">Actualizar Cliente</button>
+                    <button class="bg-rose-400 rounded-sm p-2 text-white">
+                        <a href="clientes.php">Cancelar</a>
+                    </button>
+                </form>
+            </div>
+        <?php endif; ?>
+
+        <div class="bg-indigo-500 m-2 rounded-sm p-4">
         <h2 class="text-white text-2xl mb-5">Lista de Clientes</h2>
         <table class="w-full">
             <tr class="flex gap-5 w-full mb-3">
@@ -166,32 +143,6 @@ if (isset($_GET['editar'])) {
                 <th class="w-[300px] text-white text-center">Dirección</th>
                 <th class="w-[120px] text-white text-center">Teléfono</th>
                 <th class="w-[150px] text-white text-center">Acciones</th>
-
-    <h2>Lista de Clientes</h2>
-    <table border="1">
-        <tr>
-            <th>DNI</th>
-            <th>Nombre</th>
-            <th>Dirección</th>
-            <th>Teléfono</th>
-            <th>Acciones</th>
-        </tr>
-        <?php foreach ($clientes as $cliente): ?>
-            <tr>
-                <td><?php echo $cliente['Dni']; ?></td>
-                <td><?php echo $cliente['Nombre'] . " " . $cliente['Apellido1'] . " " . $cliente['Apellido2']; ?></td>
-                <td><?php echo $cliente['Direccion']; ?></td>
-                <td><?php echo $cliente['Tlfno']; ?></td>
-                <td>
-                    <a href="clientes.php?editar=<?php echo $cliente['Dni']; ?>">✏️ Editar</a>
-                    <?php if ($_SESSION['user_role'] !== 'AUXILIAR'): ?>
-                        <form method="POST" style="display:inline;">
-                            <input type="hidden" name="dni" value="<?php echo $cliente['Dni']; ?>">
-                            <button type="submit" name="eliminar">❌ Eliminar</button>
-                        </form>
-                    <?php endif; ?>
-                </td>
-
             </tr>
             <?php foreach ($clientes as $cliente): ?>
                 <tr class="flex gap-5 w-full mb-3">
@@ -209,7 +160,6 @@ if (isset($_GET['editar'])) {
                 </tr>
             <?php endforeach; ?>
         </table>
-    </div>
-</body>
-    <?php endforeach; ?>
+    </body>
+
 </html>
