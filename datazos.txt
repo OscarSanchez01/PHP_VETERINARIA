@@ -13,14 +13,9 @@ auxiliar@aux.es
 
 --------------------
 
-<<<<<<< HEAD
-Validación de formularios,
-- Usuario: HECHO
-=======
 Validación de formularios:
 
 - Usuario:
->>>>>>> aac8a9760e5afe5e24d5baa7eac7f7859e13038e
 -> Comprobaciones:
     Que no falten datos.
     Que el DNI no exista. 
