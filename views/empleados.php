@@ -42,13 +42,30 @@ if (isset($_GET['editar'])) {
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <title>Empleados</title>
+    <title>Servicios Realizados</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <link rel="shortcut icon" href="./../assets/images/logo.png" type="image/x-icon">
 </head>
-<body>
-    <h1>Lista de Empleados</h1>
-    <a href="dashboard.php">Volver al Dashboard</a>
+
+<body class="bg-indigo-200">
+    <header class="flex justify-between items-center bg-rose-500 mb-14 p-2 h-[100px]">
+        <div class="flex gap-4 items-center">
+            <img src="./../assets/images/logo.png" class="w-[50px] h-[50px] rounded-3xl" alt="">
+            <h1 class="text-2xl text-white font-medium">Veterineria Ribera</h1>
+        </div>
+        <nav class="mr-7">
+            <ul class="flex gap-5">
+                <li><a class="text-lg text-white font-medium" href="./dashboard.php">Inicio</a></li>
+                <li><a class="text-lg text-white font-medium" href="./perros.php">Perros</a></li>
+                <li><a class="text-lg text-white font-medium" href="./clientes.php">Clientes</a></li>
+                <li><a class="text-lg text-white font-medium" href="./servicios_realizados.php">Servicios Realizados</a></li>
+                <li><a class="text-lg text-white font-medium" href="./logout.php">Logaout</a></li>
+            </ul>
+        </nav>
+    </header>
 
     <h2>Agregar Empleado</h2>
     <form method="POST">
@@ -133,4 +150,5 @@ if (isset($_GET['editar'])) {
         <?php endforeach; ?>
     </table>
 </body>
+
 </html>
