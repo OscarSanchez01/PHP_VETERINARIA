@@ -98,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["edit"])) {
     </form>
 
     <?php if ($filtroActivo && empty($servicios)): ?>
-        <p style="color: red; font-weight: bold;">El empleado no tiene servicios.</p>
+        <p style="color: red; font-weight: bold; text-align:center;">El empleado no tiene servicios.</p>
     <?php endif; ?>
 
     <h2><?php echo $editando ? "Modificar Servicio Realizado" : "Agregar Servicio Realizado"; ?></h2>
@@ -116,19 +116,19 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["edit"])) {
         <?php endif; ?>
     </form>
 
-    <h2>Listar Servicios Realizados</h2>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Cod_Servicio</th>
-            <th>ID_Perro</th>
-            <th>Fecha</th>
-            <th>Incidencias</th>
-            <th>Precio_Final</th>
-            <th>Dni</th>
-            <th>Acciones</th>
-        </tr>
-        <?php if (!empty($servicios)): ?>
+    <?php if (!$filtroActivo || !empty($servicios)): ?>
+        <h2>Listar Servicios Realizados</h2>
+        <table border="1">
+            <tr>
+                <th>ID</th>
+                <th>Cod_Servicio</th>
+                <th>ID_Perro</th>
+                <th>Fecha</th>
+                <th>Incidencias</th>
+                <th>Precio_Final</th>
+                <th>Dni</th>
+                <th>Acciones</th>
+            </tr>
             <?php foreach ($servicios as $servicio): ?>
                 <tr>
                     <td><?= htmlspecialchars($servicio["Sr_Cod"] ?? 'N/A') ?></td>
@@ -144,11 +144,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["edit"])) {
                     </td>
                 </tr>
             <?php endforeach; ?>
-        <?php else: ?>
-            <tr>
-                <td colspan="8" style="text-align: center; color: red; font-weight: bold;">No hay servicios registrados.</td>
-            </tr>
-        <?php endif; ?>
-    </table>
+        </table>
+    <?php endif; ?>
 </body>
 </html>

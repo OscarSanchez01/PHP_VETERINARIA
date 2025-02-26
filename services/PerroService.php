@@ -60,5 +60,18 @@ class PerroService {
         curl_close($ch);
         return json_decode($response, true);
     }
+
+    public static function getPerrosPorCliente($dni_cliente) {
+        $url = self::$api_url . "?dni_cliente=" . urlencode($dni_cliente);
+        $response = file_get_contents($url);
+
+        // Manejar errores en la respuesta
+        if ($response === false) {
+            return [];
+        }
+
+        $perros = json_decode($response, true);
+        return is_array($perros) ? $perros : [];
+    }
 }
 ?>

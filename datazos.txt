@@ -77,30 +77,13 @@ roles.
 
 
 
-! NUEVO MÉTODO: "Filtro" que elija un empleado y sólo liste los servicios de ese empleado
-B9. Método que devuelva todos los servicios realizados por un empleado determinado. El
-método recibirá el DNI del empleado y devolverá un array con todas las filas de la tabla
-perro_recibe_ser para ese empleado ordenado por fechas. Cada elemento del array tendrá
-los siguientes campos:
-    o El sr_cod.
-    o La fecha de realización
-    o El código del servicio realizado.
-    o El id_perro
-    o El DNI del empleado (será el del empleado).
-    o Precio final del servicio practicado.
-    o La incidencia.
-> Mensajes
-    o En caso de obtener array vacío: “El empleado no tiene servicios”.
-
-! NUEVO MÉTODO: "Filtro" que elija un cliente y sólo liste los perros de ese cliente
-B11. Método que devuelva, dado un Cliente, los perros. Dado un DNI, el método devolverá un
-array con toda la información de sus perros.
+! En el método para filtrar servicios realizados por empleados, añadir una Validación en
+caso de usar un usuario que no tenga servicios, donde ponga: "El empleado no tiene servicios"
 
 
-
-
-! Funcionalidades que son exclusivas del administrador
-
+! Funcionalidades que son exclusivas del administrador:
+    Todas las actuales.
+    
 ! Funcionalidades de un empleado: 
     o C5. Consultar los servicios que ha realizado.
     o C9. Dar de alta nuevos servicios.
