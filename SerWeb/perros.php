@@ -5,12 +5,24 @@ header('Content-Type: application/json');
 $conn = Database::getConnection();
 
 // Obtener todos los perros
-function obtenerPerros($conn) {
+function listarPerros($conn, $dni_cliente = null) {
     try {
-        $stmt = $conn->query("SELECT * FROM perros");
-        echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+        if ($dni_cliente) {
+            $stmt = $conn->prepare("SELECT * FROM perros WHERE Dni_duenio = ?");
+            $stmt->execute([$dni_cliente]);
+        } else {
+            $stmt = $conn->query("SELECT * FROM perros");
+        }
+
+        $perros = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (empty($perros)) {
+            echo json_encode(["message" => "El cliente no tiene perros registrados"]);
+        } else {
+            echo json_encode($perros);
+        }
     } catch (Exception $e) {
-        echo json_encode(["error" => $e->getMessage()]);
+        echo json_encode(["error" => "Error al obtener los perros: " . $e->getMessage()]);
     }
 }
 
@@ -90,7 +102,11 @@ function actualizarPerro($conn) {
 // Determinar qué función ejecutar
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
-        obtenerPerros($conn);
+        if (isset($_GET['dni_cliente'])) {
+            listarPerros($conn, $_GET['dni_cliente']);
+        } else {
+            listarPerros($conn);
+        }
         break;
     case 'DELETE':
         eliminarPerro($conn);
