@@ -13,9 +13,6 @@ auxiliar@aux.es
 
 --------------------
 
-Validación de formularios:
-
-- Usuario:
 -> Comprobaciones:
     Que no falten datos.
     Que el DNI no exista. 
