@@ -24,6 +24,7 @@ $email = $_SESSION['user_email'] ?? "Usuario Desconocido";
     <link rel="shortcut icon" href="./../assets/images/logo.png" type="image/x-icon">
 </head>
 
+<<<<<<< HEAD
 <body class="bg-indigo-200">
     <header class="flex justify-between items-center bg-rose-500 mb-14 p-2 h-[100px]">
         <div class="flex gap-4 items-center">
@@ -45,6 +46,21 @@ $email = $_SESSION['user_email'] ?? "Usuario Desconocido";
         </nav>
         <p class="text-lg text-white font-medium">Bienvenido usuario <?php echo '<span class="text-lg text-indigo-300 font-medium">' . strtoupper($role) . '</span>'; ?></p>
     </header>
+=======
+    <h2>Menú</h2>
+    <ul>
+        <li><a href="clientes.php">Gestión de Clientes</a></li>
+        <li><a href="perros.php">Gestión de Perros</a></li>
+        <li><a href="servicios_realizados.php">Gestión de los servicios realizados</a></li>
+        <li><a href="servicios.php">Gestión de Servicios</a></li>
+
+        <?php if ($role === 'ADMIN'): ?>
+            <li><a href="empleados.php">Gestión de Empleados</a></li>
+        <?php endif; ?>
+
+        <li><a href="logout.php">Cerrar Sesión</a></li>
+    </ul>
+>>>>>>> ad4478baba9208ba0ea3a7a2122618d9f381cdb8
 </body>
 
 </html>

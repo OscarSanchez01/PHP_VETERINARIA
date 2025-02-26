@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once "../controllers/ClienteController.php";
 $controller = new ClienteController();
 $clientes = $controller->listarClientes();
@@ -80,6 +81,7 @@ if (isset($_GET['editar'])) {
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <link rel="shortcut icon" href="./../assets/images/logo.png" type="image/x-icon">
 </head>
+<<<<<<< HEAD
 
 <body class="bg-indigo-200">
     <header class="flex justify-between items-center bg-rose-500 mb-14 p-2 h-[100px]">
@@ -97,6 +99,28 @@ if (isset($_GET['editar'])) {
             </ul>
         </nav>
     </header>
+=======
+
+<body>
+    <h1>Lista de Clientes</h1>
+    <a href="dashboard.php">Volver al Dashboard</a>
+
+    <h2>Agregar Cliente</h2>
+    <form method="POST">
+        <input type="text" name="dni" placeholder="DNI">
+        <input type="text" name="nombre" placeholder="Nombre">
+        <input type="text" name="apellido1" placeholder="Apellido 1">
+        <input type="text" name="apellido2" placeholder="Apellido 2">
+        <input type="text" name="direccion" placeholder="Dirección">
+        <input type="text" name="tlfno" placeholder="Teléfono">
+        <button type="submit" name="agregar">Agregar Cliente</button>
+    </form>
+    <?php
+    if ($errorCrearCliente !== "") {
+        echo '<p style="color: red;">' . $errorCrearCliente . '</p>';
+    }
+    ?>
+>>>>>>> ad4478baba9208ba0ea3a7a2122618d9f381cdb8
 
     <div class="bg-indigo-500 m-2 rounded-sm p-4 mb-10">
         <h2 class="text-white text-2xl mb-5">Agregar Cliente</h2>
@@ -133,6 +157,7 @@ if (isset($_GET['editar'])) {
         </div>
     <?php endif; ?>
 
+<<<<<<< HEAD
     <div class="bg-indigo-500 m-2 rounded-sm p-4">
         <h2 class="text-white text-2xl mb-5">Lista de Clientes</h2>
         <table class="w-full">
@@ -142,6 +167,32 @@ if (isset($_GET['editar'])) {
                 <th class="w-[300px] text-white text-center">Dirección</th>
                 <th class="w-[120px] text-white text-center">Teléfono</th>
                 <th class="w-[150px] text-white text-center">Acciones</th>
+=======
+    <h2>Lista de Clientes</h2>
+    <table border="1">
+        <tr>
+            <th>DNI</th>
+            <th>Nombre</th>
+            <th>Dirección</th>
+            <th>Teléfono</th>
+            <th>Acciones</th>
+        </tr>
+        <?php foreach ($clientes as $cliente): ?>
+            <tr>
+                <td><?php echo $cliente['Dni']; ?></td>
+                <td><?php echo $cliente['Nombre'] . " " . $cliente['Apellido1'] . " " . $cliente['Apellido2']; ?></td>
+                <td><?php echo $cliente['Direccion']; ?></td>
+                <td><?php echo $cliente['Tlfno']; ?></td>
+                <td>
+                    <a href="clientes.php?editar=<?php echo $cliente['Dni']; ?>">✏️ Editar</a>
+                    <?php if ($_SESSION['user_role'] !== 'AUXILIAR'): ?>
+                        <form method="POST" style="display:inline;">
+                            <input type="hidden" name="dni" value="<?php echo $cliente['Dni']; ?>">
+                            <button type="submit" name="eliminar">❌ Eliminar</button>
+                        </form>
+                    <?php endif; ?>
+                </td>
+>>>>>>> ad4478baba9208ba0ea3a7a2122618d9f381cdb8
             </tr>
             <?php foreach ($clientes as $cliente): ?>
                 <tr class="flex gap-5 w-full mb-3">

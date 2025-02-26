@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once "../controllers/ServicioController.php";
 $controller = new ServicioController();
 $servicios = $controller->listarServicios();
@@ -86,10 +87,12 @@ if (isset($_GET['editar'])) {
                 <td><?php echo $servicio['Descripcion']; ?></td>
                 <td>
                     <a href="servicios.php?editar=<?php echo $servicio['Codigo']; ?>">✏️ Editar</a>
-                    <form method="POST" style="display:inline;">
-                        <input type="hidden" name="codigo" value="<?php echo $servicio['Codigo']; ?>">
-                        <button type="submit" name="eliminar">❌ Eliminar</button>
-                    </form>
+                    <?php if ($_SESSION['user_role'] !== 'AUXILIAR'): ?>
+                        <form method="POST" style="display:inline;">
+                            <input type="hidden" name="codigo" value="<?php echo $servicio['Codigo']; ?>">
+                            <button type="submit" name="eliminar">❌ Eliminar</button>
+                        </form>
+                    <?php endif; ?>
                 </td>
             </tr>
         <?php endforeach; ?>

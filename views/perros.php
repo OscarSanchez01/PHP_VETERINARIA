@@ -1,8 +1,27 @@
 <?php
+session_start();
 require_once "../controllers/PerroController.php";
-$controller = new PerroController();
-$perros = $controller->listarPerros();
+require_once "../services/ClienteService.php";
 
+$controller = new PerroController();
+// Obtener lista de clientes
+$clientes = ClienteService::getClientes();
+
+// Si se aplica un filtro por cliente
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['dni_cliente']) && !empty($_GET['dni_cliente'])) {
+    $perros = $controller->listarPerrosPorCliente($_GET['dni_cliente']);
+    $filtroActivo = true;
+} else {
+    $perros = $controller->listarPerros();
+    $filtroActivo = false;
+}
+
+// Asegurarse de que `$perros` sea un array válido para evitar errores
+if (!is_array($perros)) {
+    $perros = [];
+}
+
+// Procesar inserción o actualización
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agregar'])) {
     require_once "../services/PerroService.php";
     PerroService::crearPerro($_POST['dni_duenio'], $_POST['nombre'], $_POST['fecha_nacimiento'], $_POST['raza'], $_POST['peso'], $_POST['altura'], $_POST['observaciones'], $_POST['numero_chip'], $_POST['sexo']);
@@ -32,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar'])) {
 $perro_a_editar = null;
 if (isset($_GET['editar'])) {
     foreach ($perros as $perro) {
-        if ((string) $perro['ID_Perro'] === $_GET['editar']) {  // Convertimos a string para evitar errores de tipo
+        if ((string) $perro['ID_Perro'] === $_GET['editar']) {
             $perro_a_editar = $perro;
             break;
         }
@@ -50,7 +69,7 @@ if (isset($_GET['editar'])) {
     <link rel="shortcut icon" href="./../assets/images/logo.png" type="image/x-icon">
 </head>
 
-<body class="bg-indigo-200">
+    <body class="bg-indigo-200">
     <header class="flex justify-between items-center bg-rose-500 mb-14 p-2 h-[100px]">
         <div class="flex gap-4 items-center">
             <img src="./../assets/images/logo.png" class="w-[50px] h-[50px] rounded-3xl" alt="">
@@ -86,6 +105,28 @@ if (isset($_GET['editar'])) {
         </form>
     </div>
 
+    <!-- NO BORRAR -->
+    <h2>Filtrar por Cliente</h2>
+    <form method="GET">
+        <label>Selecciona un cliente:</label>
+        <select name="dni_cliente">
+            <option value="">Todos</option>
+            <?php foreach ($clientes as $cliente): ?>
+                <option value="<?php echo $cliente['Dni']; ?>" <?php echo isset($_GET['dni_cliente']) && $_GET['dni_cliente'] == $cliente['Dni'] ? 'selected' : ''; ?>>
+                    <?php echo $cliente['Nombre'] . " " . $cliente['Apellido1'] . " - " . $cliente['Dni']; ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+        <button type="submit">Filtrar</button>
+        <a href="perros.php"><button type="button">Quitar Filtro</button></a>
+    </form>
+
+    <?php if ($filtroActivo && empty($perros)): ?>
+        <p style="color: red; font-weight: bold; text-align:center;">El cliente no tiene perros registrados.</p>
+    <?php endif; ?>
+    <!-- NO BORRAR -->
+
+
     <?php if ($perro_a_editar): ?>
         <div class="bg-indigo-500 m-2 rounded-sm p-4 mb-10">
             <h2 class="text-white text-2xl mb-5">Editar Perro</h2>
@@ -108,44 +149,45 @@ if (isset($_GET['editar'])) {
             </form>
         </div>
     <?php endif; ?>
-
-    <div class="bg-indigo-500 m-2 rounded-sm p-4">
+        <div class="bg-indigo-500 m-2 rounded-sm p-4">
         <h2 class="text-white text-2xl mb-5">Lista de Perros</h2>
-        <table class="w-full">
-            <tr class="flex gap-5 w-full mb-3">
-                <!-- <th>ID</th> -->
-                <th class="w-[120px] text-white text-center">Nombre</th>
-                <th class="w-[150px] text-white text-center">Raza</th>
-                <th class="w-[100px] text-white text-center">Nacimiento</th>
-                <th class="w-[100px] text-white text-center">Peso</th>
-                <th class="w-[60px] text-white text-center">Altura</th>
-                <th class="w-[160px] text-white text-center">Chip</th>
-                <th class="w-[80px] text-white text-center">Sexo</th>
-                <th class="w-[120px] text-white text-center">Dueño</th>
-                <th class="w-[120px] text-white text-center">Acciones</th>
-            </tr>
-            <?php foreach ($perros as $perro): ?>
+        <?php if (!$filtroActivo || !empty($perros)): ?>
+            <table class="w-full">
                 <tr class="flex gap-5 w-full mb-3">
-                    <!-- <td><?php echo $perro['ID_Perro']; ?></td> -->
-                    <td class="bg-indigo-300 rounded-sm p-2 text-center w-[120px] text-[#E5E5E5]"><?php echo $perro['Nombre']; ?></td>
-                    <td class="bg-indigo-300 rounded-sm p-2 text-center w-[150px] text-[#E5E5E5]"><?php echo $perro['Raza']; ?></td>
-                    <td class="bg-indigo-300 rounded-sm p-2 text-center w-[100px] text-[#E5E5E5]"><?php echo $perro['Fecha_Nto']; ?></td>
-                    <td class="bg-indigo-300 rounded-sm p-2 text-center w-[100px] text-[#E5E5E5]"><?php echo $perro['Peso']; ?> kg</td>
-                    <td class="bg-indigo-300 rounded-sm p-2 text-center w-[60px] text-[#E5E5E5]"><?php echo $perro['Altura']; ?> cm</td>
-                    <td class="bg-indigo-300 rounded-sm p-2 text-center w-[160px] text-[#E5E5E5]"><?php echo $perro['Numero_Chip']; ?></td>
-                    <td class="bg-indigo-300 rounded-sm p-2 text-center w-[80px] text-[#E5E5E5]"><?php echo $perro['Sexo']; ?></td>
-                    <td class="bg-indigo-300 rounded-sm p-2 text-center w-[120px] text-[#E5E5E5]"><?php echo $perro['Dni_duenio']; ?></td>
-                    <td>
-                        <button class="bg-indigo-900 rounded-sm p-2 text-white w-[70px]"><a href="perros.php?editar=<?php echo $perro['ID_Perro']; ?>">Editar</a></button>
-                        <form method="POST" class="inline">
-                            <input type="hidden" name="id_perro" value="<?php echo $perro['ID_Perro']; ?>">
-                            <button class="bg-rose-400 rounded-sm p-2 text-white" type="submit" name="eliminar">Eliminar</button>
-                        </form>
-                    </td>
+                    <!-- <th>ID</th> -->
+                    <th class="w-[120px] text-white text-center">Nombre</th>
+                    <th class="w-[150px] text-white text-center">Raza</th>
+                    <th class="w-[100px] text-white text-center">Nacimiento</th>
+                    <th class="w-[100px] text-white text-center">Peso</th>
+                    <th class="w-[60px] text-white text-center">Altura</th>
+                    <th class="w-[160px] text-white text-center">Chip</th>
+                    <th class="w-[80px] text-white text-center">Sexo</th>
+                    <th class="w-[120px] text-white text-center">Dueño</th>
+                    <th class="w-[120px] text-white text-center">Acciones</th>
                 </tr>
-            <?php endforeach; ?>
-        </table>
-    </div>
-</body>
+                <?php foreach ($perros as $perro): ?>
+                    <tr class="flex gap-5 w-full mb-3">
+                        <!-- <td><?php echo $perro['ID_Perro']; ?></td> -->
+                        <td class="bg-indigo-300 rounded-sm p-2 text-center w-[120px] text-[#E5E5E5]"><?php echo $perro['Nombre']; ?></td>
+                        <td class="bg-indigo-300 rounded-sm p-2 text-center w-[150px] text-[#E5E5E5]"><?php echo $perro['Raza']; ?></td>
+                        <td class="bg-indigo-300 rounded-sm p-2 text-center w-[100px] text-[#E5E5E5]"><?php echo $perro['Fecha_Nto']; ?></td>
+                        <td class="bg-indigo-300 rounded-sm p-2 text-center w-[100px] text-[#E5E5E5]"><?php echo $perro['Peso']; ?> kg</td>
+                        <td class="bg-indigo-300 rounded-sm p-2 text-center w-[60px] text-[#E5E5E5]"><?php echo $perro['Altura']; ?> cm</td>
+                        <td class="bg-indigo-300 rounded-sm p-2 text-center w-[160px] text-[#E5E5E5]"><?php echo $perro['Numero_Chip']; ?></td>
+                        <td class="bg-indigo-300 rounded-sm p-2 text-center w-[80px] text-[#E5E5E5]"><?php echo $perro['Sexo']; ?></td>
+                        <td class="bg-indigo-300 rounded-sm p-2 text-center w-[120px] text-[#E5E5E5]"><?php echo $perro['Dni_duenio']; ?></td>
+                        <td>
+                            <button class="bg-indigo-900 rounded-sm p-2 text-white w-[70px]"><a href="perros.php?editar=<?php echo $perro['ID_Perro']; ?>">Editar</a></button>
+                            <form method="POST" class="inline">
+                                <input type="hidden" name="id_perro" value="<?php echo $perro['ID_Perro']; ?>">
+                                <button class="bg-rose-400 rounded-sm p-2 text-white" type="submit" name="eliminar">Eliminar</button>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php endif; ?>
+            </table>
+
+            <!--  -->
+                </body>
 
 </html>

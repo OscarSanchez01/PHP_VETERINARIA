@@ -5,5 +5,10 @@ class PerroController {
     public function listarPerros() {
         return PerroService::getPerros();
     }
+
+    
+    public function listarPerrosPorCliente($dni_cliente) {
+        return PerroService::getPerrosPorCliente($dni_cliente);
+    }
 }
 ?>

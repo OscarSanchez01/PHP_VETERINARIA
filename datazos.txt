@@ -82,26 +82,8 @@ roles.
 
 
 
-! NUEVO MÉTODO: "Filtro" que elija un empleado y sólo liste los servicios de ese empleado
-B9. Método que devuelva todos los servicios realizados por un empleado determinado. El
-método recibirá el DNI del empleado y devolverá un array con todas las filas de la tabla
-perro_recibe_ser para ese empleado ordenado por fechas. Cada elemento del array tendrá
-los siguientes campos:
-    o El sr_cod.
-    o La fecha de realización
-    o El código del servicio realizado.
-    o El id_perro
-    o El DNI del empleado (será el del empleado).
-    o Precio final del servicio practicado.
-    o La incidencia.
-> Mensajes
+! MÉTODO: "Filtro" que elija un empleado y sólo liste los servicios de ese empleado
     o En caso de obtener array vacío: “El empleado no tiene servicios”.
-
-! NUEVO MÉTODO: "Filtro" que elija un cliente y sólo liste los perros de ese cliente
-B11. Método que devuelva, dado un Cliente, los perros. Dado un DNI, el método devolverá un
-array con toda la información de sus perros.
-
-
 
 
 ! Funcionalidades que son exclusivas del administrador
@@ -120,12 +102,5 @@ detalles dará información sobre:
     o El nombre del perro, fecha de nacimiento, raza, peso, altura y observaciones.
     o Además, desde la vista de Administrador, mostrará los detalles del empleado que
     lo entendió.
-
--Incorporar una columna “borrar” y “modificar” en el listado de servicios para la vista
-administrador. El modificar no tendrá funcionalidad.
-
--Para mejorar la inserción y el borrado de perros, se puede plantear en el listado de
-perros por CLIENTE, un botón de borrado por elemento. E incluir el botón de insertar
-nuevo perro. 
 
 --------------------
