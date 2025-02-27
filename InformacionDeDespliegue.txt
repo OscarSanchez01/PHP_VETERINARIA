@@ -1,0 +1,24 @@
+Proyecto Aplicación de Veterinaria con PHP
+
+Pasos para el despliegue de la aplicación:
+
+    1º Tener operativos y funcionalidades los servicios de Apache y MySQL de XAMPP
+    2º Importar la base de datos "gromer.sql" en PhpMyAdmin
+    3º Desplegar el proyecto en el directorio htdocs y dejar el nombre del directorio como
+       PHP_VETERINARIA, siendo la ruta correcta para el funcionamiento del proyecto la siguiente:
+       xampp/htdocs/PHP_VETERINARIA
+
+    4º Para acceder a la aplicación desde el navegador usar cualquiera de estas rutas:
+        http://localhost/PHP_VETERINARIA/views/login.php
+        http://localhost/PHP_VETERINARIA/views/
+        http://localhost/PHP_VETERINARIA
+
+    5º Para iniciar sesión se facilitan las siguientes cuentas:
+    Usuario con rol de Administrador:
+        Correo Electrónico: prueba@prueba.es
+        Contraseña:         1234
+
+    Usuario con rol de Empleado (Auxiliar):
+        Correo Electrónico: auxiliar@aux.es
+        Contraseña:         1234
+
