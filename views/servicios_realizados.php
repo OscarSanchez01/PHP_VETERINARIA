@@ -61,16 +61,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    if (!empty($_POST["update_id"]) && $errorServicioRealizado == "") {
-        $inserccionCorrecta = "El servicio con el codigo " . $_POST["Cod_Servicio"] . " se ha insertado correctamente";
-        $data["Sr_Cod"] = $_POST["update_id"];
-        $controller->actualizarServicioRealizado($data);
+    // Si hay un error, no se ejecuta la inserción y se muestra el mensaje
+    if (!empty($errorServicioRealizado)) {
+        // No redirige, permite que el error se muestre en la vista
     } else {
-        $controller->agregarServicioRealizado($data);
-    }
+        if (!empty($_POST["update_id"])) {
+            $data["Sr_Cod"] = $_POST["update_id"];
+            $controller->actualizarServicioRealizado($data);
+            $inserccionCorrecta = "El servicio con el código " . htmlspecialchars($_POST["Cod_Servicio"]) . " se ha actualizado correctamente.";
+        } else {
+            $controller->agregarServicioRealizado($data);
+            $inserccionCorrecta = "El servicio con el código " . htmlspecialchars($_POST["Cod_Servicio"]) . " se ha agregado correctamente.";
+        }
 
-    header("Location: servicios_realizados.php");
-    exit();
+        header("Location: servicios_realizados.php");
+        exit();
+    }
 }
 
 // Procesar eliminación
@@ -123,15 +129,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["edit"])) {
 
     <div class="bg-indigo-500 m-2 rounded-sm p-4 mb-10">
         <h2 class="text-white text-2xl mb-5"><?php echo $editando ? "Modificar Servicio Realizado" : "Agregar Servicio Realizado"; ?></h2>
-        <form method="POST" class="flex gap-5">
-            <input type="hidden" name="update_id" value="<?= $editando ? $servicioEditar['Sr_Cod'] : "" ?>">
-            <label class="text-white  text-center">Cod_Servicio <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="Cod_Servicio" value="<?= $editando ? $servicioEditar['Cod_Servicio'] : "" ?>"></label>
-            <label class="text-white  text-center">ID_Perro <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="number" name="ID_Perro" value="<?= $editando ? $servicioEditar['ID_Perro'] : "" ?>"></label>
-            <label class="text-white text-center">Fecha <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="date" name="Fecha" value="<?= $editando ? $servicioEditar['Fecha'] : "" ?>"></label>
-            <label class="text-white  text-center">Incidencias <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="Incidencias" value="<?= $editando ? $servicioEditar['Incidencias'] : "" ?>"></label>
-            <label class="text-white  text-center">Precio_Final <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="number" step="0.01" name="Precio_Final" value="<?= $editando ? $servicioEditar['Precio_Final'] : "" ?>"></label>
-            <label class="text-white  text-center">Dni <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="Dni" value="<?= $editando ? $servicioEditar['Dni'] : "" ?>"></label>
-            <button class="bg-indigo-900 rounded-sm p-2 text-white hover:bg-indigo-700" type="submit"><?= $editando ? "Guardar Cambios" : "Agregar" ?></button>
+        <form method="POST" class="flex gap-4">
+            <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="Cod_Servicio" placeholder="Codigo de Servicio" value="<?= $editando ? $servicioEditar['Cod_Servicio'] : "" ?>">
+            <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="number" name="ID_Perro" placeholder="ID Perro" value="<?= $editando ? $servicioEditar['ID_Perro'] : "" ?>">
+            <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="date" name="Fecha" value="<?= $editando ? $servicioEditar['Fecha'] : "" ?>">
+            <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="Incidencias" placeholder="Incidencias" value="<?= $editando ? $servicioEditar['Incidencias'] : "" ?>">
+            <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="number" step="0.01" name="Precio_Final" placeholder="Precio en €" value="<?= $editando ? $servicioEditar['Precio_Final'] : "" ?>">
+            <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="Dni" placeholder="DNI" value="<?= $editando ? $servicioEditar['Dni'] : "" ?>">
+            <button class="bg-indigo-900 rounded-sm p-2 text-white hover:bg-indigo-700" type="submit"><?= $editando ? "Aceptar" : "Agregar" ?></button>
             <?php if ($editando): ?>
                 <button class="bg-rose-400 rounded-sm p-2 text-white">
                     <a href="servicios_realizados.php">Cancelar</a>
@@ -141,7 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["edit"])) {
 
         <?php
         if ($errorServicioRealizado !== "") {
-            echo '<p class="bg-rose-400">' . $errorServicioRealizado . '</p>';
+            echo '<p class="text-rose-400 mt-3">' . $errorServicioRealizado . '</p>';
         } else {
             echo '<p class = "text-emerald-400 mt-3">' . $inserccionCorrecta . '</p>';
         }
@@ -176,7 +181,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["edit"])) {
             <h2 class="text-white text-2xl mb-5">Listar Servicios Realizados</h2>
             <table class="w-full">
                 <tr class="flex gap-5 w-full mb-3">
-                    <th class="w-[50px] text-white text-center">ID</th>
                     <th class="w-[100px] text-white text-center">Servicio</th>
                     <th class="w-[70px] text-white text-center">ID Perro</th>
                     <th class="w-[120px] text-white text-center ">Fecha</th>
@@ -188,7 +192,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["edit"])) {
 
                 <?php foreach ($servicios as $servicio): ?>
                     <tr class="flex gap-5 w-full mb-3 text-center">
-                        <td class="bg-indigo-300 rounded-sm p-2 text-center w-[50px] text-[#E5E5E5]"><?= htmlspecialchars($servicio["Sr_Cod"] ?? 'N/A') ?></td>
                         <td class="bg-indigo-300 rounded-sm p-2 text-center w-[100px] text-[#E5E5E5]"><?= htmlspecialchars($servicio["Cod_Servicio"] ?? 'N/A') ?></td>
                         <td class="bg-indigo-300 rounded-sm p-2 text-center w-[70px] text-[#E5E5E5]"><?= htmlspecialchars($servicio["ID_Perro"] ?? 'N/A') ?></td>
                         <td class="bg-indigo-300 rounded-sm p-2 text-center w-[120px] text-[#E5E5E5]"><?= htmlspecialchars($servicio["Fecha"] ?? 'N/A') ?></td>
