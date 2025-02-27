@@ -61,94 +61,101 @@ if (isset($_GET['editar'])) {
                     <li><a class="text-lg text-white font-medium" href="./perros.php">Perros</a></li>
                     <li><a class="text-lg text-white font-medium" href="./clientes.php">Clientes</a></li>
                     <li><a class="text-lg text-white font-medium" href="./servicios_realizados.php">Servicios Realizados</a></li>
-                    <li><a class="text-lg text-white font-medium" href="./servicios.php">Servicios  </a></li>
+                    <li><a class="text-lg text-white font-medium" href="./servicios.php">Servicios</a></li>
+                    <li><a class="text-lg text-white font-medium" href="./empleados.php">Empleados</a></li>
                     <li><a class="text-lg text-white font-medium p-2" href="./logout.php">Cerrar sesión</a></li>
                 </ul>
             </nav>
         </header>
 
-        <h2>Agregar Empleado</h2>
-        <form method="POST">
-            <input type="text" name="dni" placeholder="DNI" required>
-            <input type="email" name="email" placeholder="Correo Electrónico" required>
-            <input type="password" name="password" placeholder="Contraseña" required>
-            <select name="rol" required>
-                <option value="ADMIN">ADMIN</option>
-                <option value="EMPLEADO">EMPLEADO</option>
-                <option value="AUXILIAR">AUXILIAR</option>
-            </select>
-            <input type="text" name="nombre" placeholder="Nombre" required>
-            <input type="text" name="apellido1" placeholder="Apellido 1" required>
-            <input type="text" name="apellido2" placeholder="Apellido 2">
-            <input type="text" name="calle" placeholder="Calle">
-            <input type="number" name="numero" placeholder="Número">
-            <input type="text" name="cp" placeholder="Código Postal">
-            <input type="text" name="poblacion" placeholder="Población">
-            <input type="text" name="provincia" placeholder="Provincia">
-            <input type="text" name="tlfno" placeholder="Teléfono" required>
-            <select name="profesion" required>
-                <option value="NUTRICIONISTA">NUTRICIONISTA</option>
-                <option value="ESTILISTA">ESTILISTA</option>
-                <option value="AUXILIAR">AUXILIAR</option>
-                <option value="ATT.CLIENTE">ATT. CLIENTE</option>
-                <option value="ADMIN">ADMIN</option>
-            </select>
-            <button type="submit" name="agregar">Agregar Empleado</button>
-        </form>
+        <div class="bg-indigo-500 m-2 rounded-sm p-4 mb-10">
+            <h2 class="text-white text-2xl mb-5">Agregar Empleado</h2>
+            <form method="POST" class="flex flex-wrap gap-5">
+                <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="dni" placeholder="DNI" required>
+                <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="email" name="email" placeholder="Correo Electrónico" required>
+                <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="password" name="password" placeholder="Contraseña" required>
+                <select class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" name="rol" required>
+                    <option value="ADMIN">ADMIN</option>
+                    <option value="EMPLEADO">EMPLEADO</option>
+                    <option value="AUXILIAR">AUXILIAR</option>
+                </select>
+                <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="nombre" placeholder="Nombre" required>
+                <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="apellido1" placeholder="Apellido 1" required>
+                <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="apellido2" placeholder="Apellido 2">
+                <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="calle" placeholder="Calle">
+                <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="number" name="numero" placeholder="Número">
+                <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="cp" placeholder="Código Postal">
+                <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="poblacion" placeholder="Población">
+                <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="provincia" placeholder="Provincia">
+                <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="tlfno" placeholder="Teléfono" required>
+                <select class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" name="profesion" required>
+                    <option value="NUTRICIONISTA">NUTRICIONISTA</option>
+                    <option value="ESTILISTA">ESTILISTA</option>
+                    <option value="AUXILIAR">AUXILIAR</option>
+                    <option value="ATT.CLIENTE">ATT. CLIENTE</option>
+                    <option value="ADMIN">ADMIN</option>
+                </select>
+                <button class="bg-indigo-900 rounded-sm p-2 text-white" type="submit" name="agregar">Agregar Empleado</button>
+            </form>
+        </div>
 
         <?php if ($empleado_a_editar): ?>
-            <h2>Editar Empleado</h2>
-            <form method="POST">
-                <input type="hidden" name="dni" value="<?php echo $empleado_a_editar['Dni']; ?>">
-                <input type="email" name="email" placeholder="Correo Electrónico" required value="<?php echo $empleado_a_editar['Email']; ?>">
-                <select name="rol" required>
-                    <option value="ADMIN" <?php echo ($empleado_a_editar['Rol'] === 'ADMIN') ? 'selected' : ''; ?>>ADMIN</option>
-                    <option value="EMPLEADO" <?php echo ($empleado_a_editar['Rol'] === 'EMPLEADO') ? 'selected' : ''; ?>>EMPLEADO</option>
-                    <option value="AUXILIAR" <?php echo ($empleado_a_editar['Rol'] === 'AUXILIAR') ? 'selected' : ''; ?>>AUXILIAR</option>
-                </select>
-                <input type="text" name="nombre" placeholder="Nombre" required value="<?php echo $empleado_a_editar['Nombre']; ?>">
-                <input type="text" name="apellido1" placeholder="Apellido 1" required value="<?php echo $empleado_a_editar['Apellido1']; ?>">
-                <input type="text" name="apellido2" placeholder="Apellido 2" value="<?php echo $empleado_a_editar['Apellido2']; ?>">
-                <input type="text" name="tlfno" placeholder="Teléfono" required value="<?php echo $empleado_a_editar['Tlfno']; ?>">
-                <select name="profesion" required>
-                    <option value="NUTRICIONISTA" <?php echo ($empleado_a_editar['Profesion'] === 'NUTRICIONISTA') ? 'selected' : ''; ?>>NUTRICIONISTA</option>
-                    <option value="ESTILISTA" <?php echo ($empleado_a_editar['Profesion'] === 'ESTILISTA') ? 'selected' : ''; ?>>ESTILISTA</option>
-                    <option value="AUXILIAR" <?php echo ($empleado_a_editar['Profesion'] === 'AUXILIAR') ? 'selected' : ''; ?>>AUXILIAR</option>
-                    <option value="ATT.CLIENTE" <?php echo ($empleado_a_editar['Profesion'] === 'ATT.CLIENTE') ? 'selected' : ''; ?>>ATT. CLIENTE</option>
-                    <option value="ADMIN" <?php echo ($empleado_a_editar['Profesion'] === 'ADMIN') ? 'selected' : ''; ?>>ADMIN</option>
-                </select>
-                <button type="submit" name="actualizar">Actualizar Empleado</button>
-                <a href="empleados.php">Cancelar</a>
-            </form>
+            <div class="bg-indigo-500 m-2 rounded-sm p-4 mb-10">
+                <h2 class="text-white text-2xl mb-5">Editar Empleado</h2>
+                <form method="POST" class="flex flex-wrap gap-5">
+                    <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="hidden" name="dni" value="<?php echo $empleado_a_editar['Dni']; ?>">
+                    <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="email" name="email" placeholder="Correo Electrónico" required value="<?php echo $empleado_a_editar['Email']; ?>">
+                    <select class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" name="rol" required>
+                        <option value="ADMIN" <?php echo ($empleado_a_editar['Rol'] === 'ADMIN') ? 'selected' : ''; ?>>ADMIN</option>
+                        <option value="EMPLEADO" <?php echo ($empleado_a_editar['Rol'] === 'EMPLEADO') ? 'selected' : ''; ?>>EMPLEADO</option>
+                        <option value="AUXILIAR" <?php echo ($empleado_a_editar['Rol'] === 'AUXILIAR') ? 'selected' : ''; ?>>AUXILIAR</option>
+                    </select>
+                    <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="nombre" placeholder="Nombre" required value="<?php echo $empleado_a_editar['Nombre']; ?>">
+                    <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="apellido1" placeholder="Apellido 1" required value="<?php echo $empleado_a_editar['Apellido1']; ?>">
+                    <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="apellido2" placeholder="Apellido 2" value="<?php echo $empleado_a_editar['Apellido2']; ?>">
+                    <input class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" type="text" name="tlfno" placeholder="Teléfono" required value="<?php echo $empleado_a_editar['Tlfno']; ?>">
+                    <select class="bg-white rounded-sm text-rose-400 p-2 font-medium border-rose-600 placeholder:text-indigo-300 focus:outline-none focus:border-b-4 focus:rounded-b-lg" name="profesion" required>
+                        <option value="NUTRICIONISTA" <?php echo ($empleado_a_editar['Profesion'] === 'NUTRICIONISTA') ? 'selected' : ''; ?>>NUTRICIONISTA</option>
+                        <option value="ESTILISTA" <?php echo ($empleado_a_editar['Profesion'] === 'ESTILISTA') ? 'selected' : ''; ?>>ESTILISTA</option>
+                        <option value="AUXILIAR" <?php echo ($empleado_a_editar['Profesion'] === 'AUXILIAR') ? 'selected' : ''; ?>>AUXILIAR</option>
+                        <option value="ATT.CLIENTE" <?php echo ($empleado_a_editar['Profesion'] === 'ATT.CLIENTE') ? 'selected' : ''; ?>>ATT. CLIENTE</option>
+                        <option value="ADMIN" <?php echo ($empleado_a_editar['Profesion'] === 'ADMIN') ? 'selected' : ''; ?>>ADMIN</option>
+                    </select>
+                    <button class="bg-indigo-900 rounded-sm p-2 text-white" type="submit" name="actualizar">Actualizar Empleado</button>
+                    <a class="bg-rose-400 rounded-sm p-2 text-white" href="empleados.php">Cancelar</a>
+                </form>
+            </div>
         <?php endif; ?>
 
-        <h2>Lista de Empleados</h2>
-        <table border="1">
-            <tr>
-                <th>DNI</th>
-                <th>Email</th>
-                <th>Rol</th>
-                <th>Nombre</th>
-                <th>Teléfono</th>
-                <th>Acciones</th>
-            </tr>
-            <?php foreach ($empleados as $empleado): ?>
-                <tr>
-                    <td><?php echo $empleado['Dni']; ?></td>
-                    <td><?php echo $empleado['Email']; ?></td>
-                    <td><?php echo $empleado['Rol']; ?></td>
-                    <td><?php echo $empleado['Nombre']; ?></td>
-                    <td><?php echo $empleado['Tlfno']; ?></td>
-                    <td>
-                        <a href="empleados.php?editar=<?php echo $empleado['Dni']; ?>">✏️ Editar</a>
-                        <form method="POST" style="display:inline;">
-                            <input type="hidden" name="dni" value="<?php echo $empleado['Dni']; ?>">
-                            <button type="submit" name="eliminar">❌ Eliminar</button>
-                        </form>
-                    </td>
+        <div class="bg-indigo-500 m-2 rounded-sm p-4">
+            <h2 class="text-white text-2xl mb-5">Lista de Empleados</h2>
+            <table class="w-full">
+                <tr class="flex gap-5 w-full mb-3">
+                    <th class="w-[120px] text-white text-center">DNI</th>
+                    <th class="w-[300px] text-white text-center">Email</th>
+                    <th class="w-[140px] text-white text-center">Rol</th>
+                    <th class="w-[140px] text-white text-center">Nombre</th>
+                    <th class="w-[140px] text-white text-center">Teléfono</th>
+                    <th class="w-[140px] text-white text-center">Acciones</th>
                 </tr>
-            <?php endforeach; ?>
-        </table>
+                <?php foreach ($empleados as $empleado): ?>
+                    <tr class="flex gap-5 w-full mb-3">
+                        <td class="flex items-center justify-center bg-indigo-300 rounded-sm p-2 text-center w-[120px] text-[#E5E5E5]"><?php echo $empleado['Dni']; ?></td>
+                        <td class="flex items-center justify-center bg-indigo-300 rounded-sm p-2 text-center w-[300px] text-[#E5E5E5]"><?php echo $empleado['Email']; ?></td>
+                        <td class="flex items-center justify-center bg-indigo-300 rounded-sm p-2 text-center w-[140px] text-[#E5E5E5]"><?php echo $empleado['Rol']; ?></td>
+                        <td class="flex items-center justify-center bg-indigo-300 rounded-sm p-2 text-center w-[140px] text-[#E5E5E5]"><?php echo $empleado['Nombre']; ?></td>
+                        <td class="flex items-center justify-center bg-indigo-300 rounded-sm p-2 text-center w-[140px] text-[#E5E5E5]"><?php echo $empleado['Tlfno']; ?></td>
+                        <td class="flex items-center gap-3">
+                            <a class="bg-indigo-900 rounded-sm p-2 text-white w-[60px]" href="empleados.php?editar=<?php echo $empleado['Dni']; ?>">Editar</a>
+                            <form method="POST" style="display:inline;">
+                                <input type="hidden" name="dni" value="<?php echo $empleado['Dni']; ?>">
+                                <button class="bg-rose-400 rounded-sm p-2 text-white" type="submit" name="eliminar">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+        </div>
     </body>
 
 </html>

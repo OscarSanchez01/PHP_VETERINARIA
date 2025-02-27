@@ -114,7 +114,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["edit"])) {
                 <li><a class="text-lg text-white font-medium" href="./perros.php">Perros</a></li>
                 <li><a class="text-lg text-white font-medium" href="./clientes.php">Clientes</a></li>
                 <li><a class="text-lg text-white font-medium" href="./servicios_realizados.php">Servicios Realizados</a></li>
-                <li><a class="text-lg text-white font-medium" href="./servicios.php">Servicios  </a></li>
+                <li><a class="text-lg text-white font-medium" href="./servicios.php">Servicios</a></li>
+                <li><a class="text-lg text-white font-medium" href="./empleados.php">Empleados</a></li>
                 <li><a class="text-lg text-white font-medium p-2" href="./logout.php">Cerrar sesión</a></li>
             </ul>
         </nav>
@@ -182,7 +183,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["edit"])) {
                     <th class="w-[400px] text-white text-center">Incidencias</th>
                     <th class="w-[70px] text-white text-center">Precio</th>
                     <th class="w-[150px] text-white text-center">Dni</th>
-                    <th class="text-white">Acciones</th>
+                    <th class="w-[150px] text-white">Acciones</th>
                 </tr>
 
                 <?php foreach ($servicios as $servicio): ?>
@@ -195,7 +196,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["edit"])) {
                         <td class="bg-indigo-300 rounded-sm p-2 text-center w-[70px] text-[#E5E5E5]"><?= htmlspecialchars(number_format($servicio["Precio_Final"] ?? 0, 2)) . " €"; ?></td>
                         <td class="bg-indigo-300 rounded-sm p-2 text-center w-[150px] text-[#E5E5E5]"><?= htmlspecialchars($servicio["Dni"] ?? 'N/A') ?></td>
                         <td>
-                            <a class="bg-rose-400 rounded-sm p-2 text-white" href="?edit=<?= $servicio["Sr_Cod"] ?>">Modificar</a>
+                            <a class="bg-indigo-900 rounded-sm p-2 text-white" href="?edit=<?= $servicio["Sr_Cod"] ?>">Editar</a>
                             <a class="bg-rose-400 rounded-sm p-2 text-white" href="?delete=<?= $servicio["Sr_Cod"] ?>" onclick="return confirm('¿Seguro que quieres eliminar este servicio?')">Eliminar</a>
                         </td>
                     </tr>

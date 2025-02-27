@@ -60,7 +60,8 @@ if (isset($_GET['editar'])) {
                     <li><a class="text-lg text-white font-medium" href="./perros.php">Perros</a></li>
                     <li><a class="text-lg text-white font-medium" href="./clientes.php">Clientes</a></li>
                     <li><a class="text-lg text-white font-medium" href="./servicios_realizados.php">Servicios Realizados</a></li>
-                    <li><a class="text-lg text-white font-medium" href="./servicios.php">Servicios  </a></li>
+                    <li><a class="text-lg text-white font-medium" href="./servicios.php">Servicios</a></li>
+                    <li><a class="text-lg text-white font-medium" href="./empleados.php">Empleados</a></li>
                     <li><a class="text-lg text-white font-medium p-2" href="./logout.php">Cerrar sesión</a></li>
                 </ul>
             </nav>
@@ -97,7 +98,7 @@ if (isset($_GET['editar'])) {
                     <th class="w-[150px] text-white text-center">Nombre</th>
                     <th class="w-[100px] text-white text-center">Precio</th>
                     <th class="w-[500px] text-white text-center">Descripción</th>
-                    <th class="w-[180px] text-white text-center">Acciones</th>
+                    <th class="w-[110px] text-white text-center">Acciones</th>
                 </tr>
                 <?php foreach ($servicios as $servicio): ?>
                     <tr class="flex gap-5 w-full mb-3">
@@ -106,11 +107,11 @@ if (isset($_GET['editar'])) {
                         <td class="flex items-center justify-center bg-indigo-300 rounded-sm p-2 text-center w-[100px] text-[#E5E5E5]"><?php echo number_format($servicio['Precio'], 2); ?> €</td>
                         <td class="flex items-center justify-center bg-indigo-300 rounded-sm p-2 text-center w-[500px] text-[#E5E5E5]"><?php echo $servicio['Descripcion']; ?></td>
                         <td class="flex items-center gap-3">
-                            <a class="bg-indigo-900 rounded-sm p-2 text-white w-[90px]" href="servicios.php?editar=<?php echo $servicio['Codigo']; ?>">✏️ Editar</a>
+                            <a class="bg-indigo-900 rounded-sm p-2 text-white w-[60px]" href="servicios.php?editar=<?php echo $servicio['Codigo']; ?>">Editar</a>
                             <?php if ($_SESSION['user_role'] !== 'AUXILIAR'): ?>
                                 <form method="POST" style="display:inline;">
                                     <input type="hidden" name="codigo" value="<?php echo $servicio['Codigo']; ?>">
-                                    <button class="bg-rose-400 rounded-sm p-2 text-white" type="submit" name="eliminar">❌ Eliminar</button>
+                                    <button class="bg-rose-400 rounded-sm p-2 text-white" type="submit" name="eliminar">Eliminar</button>
                                 </form>
                             <?php endif; ?>
                         </td>

@@ -80,7 +80,8 @@ if (isset($_GET['editar'])) {
                 <li><a class="text-lg text-white font-medium" href="./perros.php">Perros</a></li>
                 <li><a class="text-lg text-white font-medium" href="./clientes.php">Clientes</a></li>
                 <li><a class="text-lg text-white font-medium" href="./servicios_realizados.php">Servicios Realizados</a></li>
-                <li><a class="text-lg text-white font-medium" href="./servicios.php">Servicios  </a></li>
+                <li><a class="text-lg text-white font-medium" href="./servicios.php">Servicios</a></li>
+                <li><a class="text-lg text-white font-medium" href="./empleados.php">Empleados</a></li>
                 <li><a class="text-lg text-white font-medium p-2" href="./logout.php">Cerrar sesión</a></li>
             </ul>
         </nav>
